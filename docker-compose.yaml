@@ -1,12 +1,11 @@
 version: '3.7'
-
 services:
   app:
     build:
       dockerfile: .docker/dev/Dockerfile
       context: .
     ports:
-      - "${APP_PORT:-8080}:8080"
+      - "${APP_PORT:-8081}:8080"
     volumes:
       - .:/app
     stdin_open: true
