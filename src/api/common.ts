@@ -56,3 +56,4 @@ export class ListSearchParams extends URLSearchParams {
 }
 
 export type ListResponse<T> = Promise<AxiosResponse<PaginatedData<T>>>
+export type ItemResponse<T> = Promise<AxiosResponse<T>>

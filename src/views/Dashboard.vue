@@ -2,11 +2,15 @@
   <div>
     <CRow>
       <CCol sm="6" lg="3">
+        <router-link
+          to="/articles"
+        >
         <CWidgetDropdown color="primary" header="Articles" :text="articles.totalElements">
           <template #footer v-if="articles.last">
             <small class="text-sm-right"><i>Last update: {{ articles.last.creationDate.fromNow() }}</i></small>
           </template>
         </CWidgetDropdown>
+        </router-link>
       </CCol>
     </CRow>
   </div>

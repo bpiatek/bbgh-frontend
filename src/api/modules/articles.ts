@@ -1,12 +1,17 @@
 import apiService from '../ApiService'
-import { Pagination, Sort, ListSearchParams, ListResponse } from '../common'
+import { Pagination, Sort, ListSearchParams, ListResponse, ItemResponse } from '../common'
 
-export const articles = {
+export class ArticlesApi {
   articles (pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
     return apiService.get('/articles', {
       params: new ListSearchParams(pagination, sorts)
     })
-  },
+  }
+
+  article (id: number): ItemResponse<Article> {
+    return apiService.get(`/articles/${id}`)
+  }
+
   articleComments (id: number, pagination: Pagination, sorts: Sort[] = []): ListResponse<Comment> {
     return apiService.get(`/articles/${id}/comments`, {
       params: new ListSearchParams(pagination, sorts)
@@ -14,12 +19,13 @@ export const articles = {
   }
 }
 
-export default articles
+export default new ArticlesApi()
 
 export interface Article {
   id: number;
   url: string;
   title: string;
+  content: string;
   creationDate: string;
 }
 

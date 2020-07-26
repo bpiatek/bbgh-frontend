@@ -1,19 +1,37 @@
 <template>
-  <CRow>
+  <CRow v-if="article">
     <CCol col="12" lg="12">
       <CCard>
-        <CCardHeader>
-          Article id:  {{ articleId }}
-        </CCardHeader>
         <CCardBody>
+          <table class="table">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>URL</th>
+              <th>Creation Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>{{ articleId }}</td>
+              <td><a :href="article.url">{{ article.url }}</a></td>
+              <td>{{ article.creationDate }}</td>
+            </tr>
+            </tbody>
+          </table>
         </CCardBody>
       </CCard>
     </CCol>
     <CCol col="12">
       <CCard>
-        <h2>
-          TODO article content
-        </h2>
+        <CCardHeader>
+          <h3>
+            {{ article.title }}
+          </h3>
+        </CCardHeader>
+        <CCardBody>
+          {{ article.content }}
+        </CCardBody>
       </CCard>
     </CCol>
     <CCol col="12" lg="12">
@@ -58,12 +76,15 @@ import { Pagination, Sort } from '@/api/common'
 import api from '@/api/api'
 import { Comment } from '@/api/modules/articles'
 import { CommentWrapper } from '@/model/articles/CommentWrapper'
+import { ArticleWrapper } from '@/model/articles/ArticleWrapper'
+
 export default {
   name: 'Article',
   components: { ApiDataTable },
   data () {
     return {
       articleId: null as null|number,
+      article: null as null|ArticleWrapper,
       items: [],
       fields: [
         { key: 'info', _style: 'width:130px' },
@@ -81,6 +102,9 @@ export default {
   },
   created () {
     this.articleId = this.$route.params.id
+    api.articles.article(this.articleId).then((r) => {
+      this.article = new ArticleWrapper(r.data)
+    })
   },
   methods: {
     loadComments ({ pagination, sorts }: {pagination: Pagination; sorts: Sort[]}) {

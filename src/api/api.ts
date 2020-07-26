@@ -1,7 +1,10 @@
-import articles from '@/api/modules/articles'
+import articlesApi, { ArticlesApi } from '@/api/modules/articles'
 
-const api = {
-  articles
+export class Api {
+  public articles: ArticlesApi
+  constructor () {
+    this.articles = articlesApi
+  }
 }
 
-export default api
+export default new Api()

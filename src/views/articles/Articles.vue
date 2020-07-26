@@ -18,6 +18,16 @@
                 <a :href="item.url" target="_blank">click</a>
               </td>
             </template>
+            <template #title="{item}">
+              <td>
+                <p
+                  style="cursor: pointer"
+                  @click="$router.push({name: 'Article', params: {id: item.id}})"
+                >
+                  {{ item.title }}
+                </p>
+              </td>
+            </template>
             <template #creationDate="{item}">
               <td>
                 <span>{{ item.creationDate.format('YYYY-MM-DD') }}</span>
