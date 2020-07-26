@@ -1,0 +1,87 @@
+<template>
+  <CRow>
+    <CCol col="12" xl="12">
+      <CCard>
+        <CCardHeader>
+          <h3>Articles</h3>
+        </CCardHeader>
+        <CCardBody>
+          <ApiDataTable
+            :items="items"
+            :fields="fields"
+            :total-pages="totalPages"
+            use-query
+            @update="loadArticles"
+          >
+            <template #url="{item}">
+              <td>
+                <a :href="item.url" target="_blank">click</a>
+              </td>
+            </template>
+            <template #creationDate="{item}">
+              <td>
+                <span>{{ formatCreationDate(item.creationDate) }}</span>
+              </td>
+            </template>
+            <template #actions="{item}">
+              <td>
+                <CButton
+                  @click.prevent="$router.push({name: 'Article', params: { id: item.id } })"
+                  color="info"
+                  variant="outline"
+                  size="sm"
+                >Show</CButton>
+              </td>
+            </template>
+          </ApiDataTable>
+        </CCardBody>
+      </CCard>
+    </CCol>
+  </CRow>
+</template>
+
+<script lang="ts">
+import ApiDataTable from '@/component/ApiDataTable.vue'
+import { Pagination, Sort } from '@/api/common'
+import api from '@/api/api'
+import * as moment from 'moment'
+
+export default {
+  name: 'Articles',
+  components: { ApiDataTable },
+  data () {
+    return {
+      items: [],
+      fields: [
+        { key: 'id', _style: 'width:75px' },
+        { key: 'url', _style: 'width:75px', sorter: false },
+        { key: 'title', _style: 'min-width:100px;' },
+        { key: 'creationDate', _style: 'width:100px; white-space: nowrap;' },
+        {
+          key: 'actions',
+          label: 'Actions',
+          _style: 'width:1%',
+          sorter: false,
+          filter: false
+        }
+      ],
+      totalPages: 1
+    }
+  },
+  methods: {
+    loadArticles ({ pagination, sorts }: {pagination: Pagination; sorts: Sort[]}) {
+      api.articles.articles(pagination, sorts).then((r) => {
+        this.items = this.items.slice(0, 0).concat(r.data.content)
+        this.totalPages = r.data.totalPages
+      })
+    },
+    formatCreationDate (creationDate: string): string {
+      return moment.default(creationDate).format('YYYY-MM-DD')
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
