@@ -40,6 +40,13 @@ docker-compose stop
 ```
 
 ## deploy production
+
+#### 1. Set VUE_APP_API_HOST in .env.local or .env.production.local files
+```env
+# .env.local
+VUE_APP_API_HOST=<bbgh-backend api url>
+```
+
 ```
 docker-compose -f .docker/prod/docker-compose.yaml stop
 APP_PORT=80 docker-compose -f .docker/prod/docker-compose.yaml up --build -d

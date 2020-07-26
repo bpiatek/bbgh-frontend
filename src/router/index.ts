@@ -5,6 +5,7 @@ import TheContainer from '@/containers/TheContainer.vue'
 import Dashboard from '@/views/Dashboard.vue'
 
 import Articles from '@/views/articles/Articles.vue'
+import Article from '@/views/articles/Article.vue'
 
 Vue.use(Router)
 
@@ -27,7 +28,7 @@ function configRoutes () {
             label: 'Articles'
           },
           component: {
-            render (c: any) {
+            render (c) {
               return c('router-view')
             }
           },
@@ -36,6 +37,14 @@ function configRoutes () {
               path: '',
               name: 'Articles',
               component: Articles
+            },
+            {
+              path: ':id',
+              meta: {
+                label: 'Article Details'
+              },
+              name: 'Article',
+              component: Article
             }
           ]
         }

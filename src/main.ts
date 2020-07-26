@@ -4,7 +4,7 @@ import router from './router'
 import store from './store'
 import CoreuiVue from '@coreui/vue'
 import icons from './assets/icons/icons'
-import ApiService from '@/common/api/ApiService'
+import ApiService from '@/api/ApiService'
 
 // init env things
 ApiService.init(process.env.VUE_APP_API_HOST)
@@ -13,7 +13,6 @@ ApiService.init(process.env.VUE_APP_API_HOST)
 Vue.use(CoreuiVue)
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,
@@ -24,6 +23,6 @@ new Vue({
 // types
 declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
-    icons?: any;
+    icons?;
   }
 }

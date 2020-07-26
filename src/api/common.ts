@@ -1,5 +1,7 @@
 // Common classes and interfaces
 
+import { AxiosResponse } from 'axios'
+
 export class Pagination {
   public constructor (
     public page: number,
@@ -23,6 +25,15 @@ export class Sort {
     this.name = name
     this.direction = direction
   }
+
+  static fromString (string: string): Sort {
+    const splited = string.split(',')
+    if (splited.length === 1) {
+      return new Sort(splited[0], SortDirection.asc)
+    } else {
+      return new Sort(splited[0], splited[1] === 'desc' ? SortDirection.desc : SortDirection.asc)
+    }
+  }
 }
 
 export interface PaginatedData<T> {
@@ -43,3 +54,5 @@ export class ListSearchParams extends URLSearchParams {
     sorts.forEach((s) => { this.append('sort', s.name + ',' + s.direction) })
   }
 }
+
+export type ListResponse<T> = Promise<AxiosResponse<PaginatedData<T>>>
