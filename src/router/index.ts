@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import TheContainer from '@/containers/TheContainer.vue'
 import Dashboard from '@/views/Dashboard.vue'
 
+import Articles from '@/views/articles/Articles.vue'
+
 Vue.use(Router)
 
 function configRoutes () {
@@ -18,6 +20,24 @@ function configRoutes () {
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard
+        },
+        {
+          path: 'articles',
+          meta: {
+            label: 'Articles'
+          },
+          component: {
+            render (c: any) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: '',
+              name: 'Articles',
+              component: Articles
+            }
+          ]
         }
       ]
     }
