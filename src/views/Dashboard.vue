@@ -4,7 +4,7 @@
       <CCol sm="6" lg="3">
         <CWidgetDropdown color="primary" header="Articles" :text="articles.totalElements">
           <template #footer v-if="articles.last">
-            <small class="text-sm-right"><i>Last update: {{ articles.last.creationDate().fromNow() }}</i></small>
+            <small class="text-sm-right"><i>Last update: {{ articles.last.creationDate.fromNow() }}</i></small>
           </template>
         </CWidgetDropdown>
       </CCol>

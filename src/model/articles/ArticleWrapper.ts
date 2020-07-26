@@ -1,12 +1,16 @@
 import { Article } from '@/api/modules/articles'
-import * as moment from 'moment'
+import dayjs from 'dayjs'
 
 export class ArticleWrapper {
-  constructor (public article: Article) {
-    this.article = article
-  }
+  id: number;
+  url: string;
+  title: string;
+  creationDate: dayjs.Dayjs;
 
-  creationDate (): moment.Moment {
-    return moment.default(this.article.creationDate)
+  constructor (public article: Article) {
+    this.id = article.id
+    this.url = article.url
+    this.title = article.title
+    this.creationDate = dayjs(article.creationDate)
   }
 }

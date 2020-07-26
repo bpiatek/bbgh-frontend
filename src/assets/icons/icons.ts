@@ -1,3 +1,15 @@
-import * as icons from '@coreui/icons'
+import {
+  cilSpeedometer,
+  cilDescription,
+  cilMagnifyingGlass,
+  cilUser,
+  cilLockLocked
+} from '@coreui/icons/js/free'
 
-export default icons
+export default {
+  cilSpeedometer,
+  cilDescription,
+  cilMagnifyingGlass,
+  cilUser,
+  cilLockLocked
+}

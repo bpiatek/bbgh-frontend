@@ -20,7 +20,7 @@
             </template>
             <template #creationDate="{item}">
               <td>
-                <span>{{ formatCreationDate(item.creationDate) }}</span>
+                <span>{{ item.creationDate.format('YYYY-MM-DD') }}</span>
               </td>
             </template>
             <template #actions="{item}">
@@ -44,7 +44,9 @@
 import ApiDataTable from '@/component/ApiDataTable.vue'
 import { Pagination, Sort } from '@/api/common'
 import api from '@/api/api'
-import * as moment from 'moment'
+import dayjs from 'dayjs'
+import { ArticleWrapper } from '@/model/articles/ArticleWrapper'
+import { Article } from '@/api/modules/articles'
 
 export default {
   name: 'Articles',
@@ -71,12 +73,12 @@ export default {
   methods: {
     loadArticles ({ pagination, sorts }: {pagination: Pagination; sorts: Sort[]}) {
       api.articles.articles(pagination, sorts).then((r) => {
-        this.items = this.items.slice(0, 0).concat(r.data.content)
+        this.items = this.items.slice(0, 0).concat(r.data.content.map((a: Article) => new ArticleWrapper(a)))
         this.totalPages = r.data.totalPages
       })
     },
     formatCreationDate (creationDate: string): string {
-      return moment.default(creationDate).format('YYYY-MM-DD')
+      return dayjs(creationDate).format('YYYY-MM-DD')
     }
   }
 }

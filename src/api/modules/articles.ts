@@ -1,6 +1,5 @@
 import apiService from '../ApiService'
-import { AxiosResponse } from 'axios'
-import { Pagination, PaginatedData, Sort, ListSearchParams, ListResponse } from '../common'
+import { Pagination, Sort, ListSearchParams, ListResponse } from '../common'
 
 export const articles = {
   articles (pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
