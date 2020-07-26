@@ -15,7 +15,7 @@
           >
             <template #url="{item}">
               <td>
-                <a :href="item.url" target="_blank">click</a>
+                <a :href="item.url">click</a>
               </td>
             </template>
             <template #title="{item}">

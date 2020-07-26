@@ -1,33 +1,16 @@
 <template>
   <CRow v-if="article">
-    <CCol col="12" lg="12">
-      <CCard>
-        <CCardBody>
-          <table class="table">
-            <thead>
-            <tr>
-              <th>ID</th>
-              <th>URL</th>
-              <th>Creation Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>{{ articleId }}</td>
-              <td><a :href="article.url">{{ article.url }}</a></td>
-              <td>{{ article.creationDate }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </CCardBody>
-      </CCard>
-    </CCol>
     <CCol col="12">
       <CCard>
         <CCardHeader>
           <h3>
-            {{ article.title }}
+              {{ article.title }}
           </h3>
+          <CRow>
+            <CCol col="1">ID: {{ article.id }}</CCol>
+            <CCol col="6"><a :href="article.url">{{ article.url.length > 60 ? article.url.substring(0, 57) + '...' : article.url }}</a></CCol>
+            <CCol col="5" class="text-right">{{ article.creationDate }}</CCol>
+          </CRow>
         </CCardHeader>
         <CCardBody>
           {{ article.content }}
