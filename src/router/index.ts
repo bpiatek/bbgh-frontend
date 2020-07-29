@@ -28,7 +28,7 @@ function configRoutes () {
             label: 'Articles'
           },
           component: {
-            render (c) {
+            render (c: (s: string) => unknown) {
               return c('router-view')
             }
           },

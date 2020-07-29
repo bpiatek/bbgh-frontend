@@ -8,6 +8,9 @@ export const ApiService = {
   get (url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
     return Axios.get(url, this.prepareConfig(config))
   },
+  post (url: string, data?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse> {
+    return Axios.post(url, data, this.prepareConfig(config))
+  },
   prepareConfig (config: AxiosRequestConfig = {}): AxiosRequestConfig {
     config.baseURL = this.apiHost + '/api'
     return config

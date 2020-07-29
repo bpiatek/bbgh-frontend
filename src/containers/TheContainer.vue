@@ -1,6 +1,7 @@
 <template>
   <div class="c-app">
     <TheSidebar/>
+    <TheAlerts/>
     <CWrapper>
       <TheHeader/>
       <div class="c-body">
@@ -21,10 +22,12 @@
 import TheSidebar from './TheSidebar'
 import TheHeader from './TheHeader'
 import TheFooter from './TheFooter'
+import TheAlerts from '@/containers/TheAlerts'
 
 export default {
   name: 'TheContainer',
   components: {
+    TheAlerts,
     TheSidebar,
     TheHeader,
     TheFooter
@@ -33,12 +36,12 @@ export default {
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 </style>

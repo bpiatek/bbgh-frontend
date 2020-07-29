@@ -1,5 +1,7 @@
 import apiService from '../ApiService'
-import { Pagination, Sort, ListSearchParams, ListResponse, ItemResponse } from '../common'
+import { Pagination, Sort, ListSearchParams, ListResponse, ItemResponse } from '../model/common'
+import { Article } from '../model/Article'
+import { Comment } from '@/api/model/Comment'
 
 export class ArticlesApi {
   articles (pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
@@ -20,18 +22,3 @@ export class ArticlesApi {
 }
 
 export default new ArticlesApi()
-
-export interface Article {
-  id: number;
-  url: string;
-  title: string;
-  content: string;
-  creationDate: string;
-}
-
-export interface Comment {
-  id: number;
-  author: string;
-  dateAdded: string;
-  content: string;
-}

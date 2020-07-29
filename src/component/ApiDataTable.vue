@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Pagination, Sort, SortDirection } from '@/api/common'
+import { Pagination, Sort, SortDirection } from '@/api/model/common'
 
 export default {
   name: 'ApiDataTable',
@@ -62,9 +62,9 @@ export default {
       const sorts = this.sort.column ? [new Sort(this.sort.column, this.sort.asc ? SortDirection.asc : SortDirection.desc)] : []
       this.$emit('update', { pagination, sorts })
     },
-    updateSort (sort) {
-      this.sort.column = sort.column
-      this.sort.asc = sort.asc
+    updateSort ({ column, asc }: {column: string; asc: boolean}) {
+      this.sort.column = column
+      this.sort.asc = asc
       this.loadData()
       this.updateRouteQuery()
     },
