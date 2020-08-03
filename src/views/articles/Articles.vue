@@ -10,7 +10,11 @@
             :items="items"
             :fields="fields"
             :total-pages="totalPages"
+            :total-elements="totalElements"
+            :loading="loading"
             use-query
+            :table-filter="{placeholder: 'Search...' }"
+            :default-sort="{column: 'creationDate', asc: false }"
             @update="loadArticles"
           >
             <template #url="{item}">
@@ -29,8 +33,8 @@
               </td>
             </template>
             <template #creationDate="{item}">
-              <td>
-                <span>{{ dayjs(item.creationDate).format('YYYY-MM-DD') }}</span>
+              <td class="text-nowrap text-xl-right">
+                {{ dayjs(item.creationDate).format('YYYY-MM-DD HH:mm:ss') }}
               </td>
             </template>
             <template #actions="{item}">
@@ -66,6 +70,12 @@ export default {
         { key: 'id', _style: 'width:75px' },
         { key: 'url', _style: 'width:75px', sorter: false },
         { key: 'title', _style: 'min-width:100px;' },
+        { key: 'comments', _classes: 'text-right' },
+        { key: 'positive', _classes: 'text-success text-right' },
+        { key: 'neutral', _classes: 'text-info text-right' },
+        { key: 'negative', _classes: 'text-danger text-right' },
+        { key: 'notOpinion', _classes: 'text-right' },
+        { key: 'notChecked', _classes: 'text-right' },
         { key: 'creationDate', _style: 'width:100px; white-space: nowrap;' },
         {
           key: 'actions',
@@ -75,14 +85,19 @@ export default {
           filter: false
         }
       ],
-      totalPages: 1
+      totalPages: 1,
+      totalElements: 0,
+      loading: false
     }
   },
   methods: {
-    loadArticles ({ pagination, sorts }: {pagination: Pagination; sorts: Sort[]}) {
-      api.articles.articles(pagination, sorts).then((r) => {
+    loadArticles ({ pagination, sorts, tableFilter }: {pagination: Pagination; sorts: Sort[]; tableFilter: string}) {
+      this.loading = true
+      api.articles.articles(pagination, sorts, tableFilter).then((r) => {
         this.items = this.items.slice(0, 0).concat(r.data.content)
         this.totalPages = r.data.totalPages
+        this.totalElements = r.data.totalElements
+        this.loading = false
       })
     }
   }

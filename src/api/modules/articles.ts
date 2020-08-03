@@ -1,16 +1,18 @@
 import apiService from '../ApiService'
 import { Pagination, Sort, ListSearchParams, ListResponse, ItemResponse } from '../model/common'
-import { Article } from '../model/Article'
+import { Article, ArticleDetails } from '../model/Article'
 import { Comment } from '@/api/model/Comment'
 
 export class ArticlesApi {
-  articles (pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
-    return apiService.get('/articles', {
-      params: new ListSearchParams(pagination, sorts)
-    })
+  articles (pagination: Pagination, sorts: Sort[] = [], query?: string): ListResponse<Article> {
+    const params = new ListSearchParams(pagination, sorts)
+    if (query) {
+      params.append('query', query)
+    }
+    return apiService.get('/articles', { params })
   }
 
-  article (id: number): ItemResponse<Article> {
+  article (id: number): ItemResponse<ArticleDetails> {
     return apiService.get(`/articles/${id}`)
   }
 
