@@ -7,3 +7,14 @@
 .comment-opinion-status-dropdown .dropdown-toggle {
   min-width: 150px;
 }
+
+.api-data-table-filter {
+  display: flex;
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.api-data-table-filter input {
+  margin-left: 0.25rem;
+  text-align: center;
+}

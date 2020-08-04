@@ -3,7 +3,8 @@ import {
   cilDescription,
   cilMagnifyingGlass,
   cilUser,
-  cilLockLocked
+  cilLockLocked,
+  cilInfo
 } from '@coreui/icons/js/free'
 import { logo, logoSquare } from './logo'
 
@@ -14,5 +15,6 @@ export default {
   cilDescription,
   cilMagnifyingGlass,
   cilUser,
-  cilLockLocked
+  cilLockLocked,
+  cilInfo
 }
