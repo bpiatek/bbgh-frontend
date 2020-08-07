@@ -13,7 +13,7 @@
             :total-elements="totalElements"
             :loading="loading"
             use-query
-            :table-filter="{placeholder: 'Search...' }"
+            :table-filter="{placeholder: 'Search...', suggestions: tableFilterSuggestions }"
             :default-sort="{column: 'creationDate', asc: false }"
             @update="loadArticles"
           >
@@ -69,7 +69,7 @@ export default {
       fields: [
         { key: 'id', _style: 'width:75px' },
         { key: 'url', _style: 'width:75px', sorter: false },
-        { key: 'title', _style: 'min-width:100px;' },
+        { key: 'title', _style: 'min-width:200px;' },
         { key: 'comments', _style: 'width: 1%', _classes: 'text-right' },
         { key: 'positive', _style: 'width: 1%', _classes: 'text-success text-right' },
         { key: 'neutral', _style: 'width: 1%', _classes: 'text-info text-right' },
@@ -87,7 +87,12 @@ export default {
       ],
       totalPages: 1,
       totalElements: 0,
-      loading: false
+      loading: false,
+      tableFilterSuggestions: [
+        'comments > 20',
+        'comments < 20, comments = not checked',
+        'title : Poznań'
+      ]
     }
   },
   methods: {

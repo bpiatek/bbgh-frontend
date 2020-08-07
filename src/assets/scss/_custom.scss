@@ -1,9 +1,5 @@
 // Here you can add other styles
 
-.table-responsive {
-  overflow: inherit;
-}
-
 .comment-opinion-status-dropdown .dropdown-toggle {
   min-width: 150px;
 }
@@ -17,4 +13,8 @@
 .api-data-table-filter input {
   margin-left: 0.25rem;
   text-align: center;
+}
+
+.vue-simple-suggest {
+  width: 100%;
 }

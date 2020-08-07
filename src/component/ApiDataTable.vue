@@ -3,21 +3,29 @@
     <slot name="#header">
     </slot>
     <div v-if="totalElements" class="text-right mb-2">Total items: {{ totalElements }}</div>
-    <div v-if="tableFilter" class="api-data-table-filter" >
-      <CIcon
-        v-if="tableFilter.tooltip"
-        name="cil-info"
-        v-c-tooltip="tableFilter.tooltip"
-      />
-      <input
-        class="form-control"
-        type="text"
-        aria-label="table filter input"
-        v-model="tableFilterValue"
-        @change="tableFilterChange()"
-        :placeholder="tableFilter.placeholder"
-      >
-    </div>
+    <form @submit.prevent="tableFilterChange" v-if="tableFilter">
+      <div class="api-data-table-filter">
+        <VueSimpleSuggest
+          ref="tableFilter"
+          :list="tableFilterSettings.suggestions"
+          :filter-by-query="false"
+          :placeholder="tableFilterSettings.placeholder"
+          :min-length="0"
+          :controls="{autocomplete: []}"
+          @select="tableFilterChange"
+          @input="tableFilterValue = $event"
+          @hide-list="tableFilterChange"
+        >
+          <div slot="suggestion-item" slot-scope="{ suggestion }" class="overflow-auto">
+            <span class="float-left mt-1">{{ suggestion }}</span>
+<!--            TODO fix removing-->
+<!--            <button @click.stop="removeTableFilterSuggestion(suggestion)" class="float-right btn btn-sm btn-ghost-secondary">-->
+<!--              <CIcon name="cilX"/>-->
+<!--            </button>-->
+          </div>
+        </VueSimpleSuggest>
+      </div>
+    </form>
     <CDataTable
       :fields="fields"
       :items="items"
@@ -42,9 +50,14 @@
 
 <script lang="ts">
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
+import 'vue-simple-suggest/dist/styles.css'
+// import VueSimpleSuggest from 'vue-simple-suggest/lib/vue-simple-suggest.vue' // Optional CSS
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const VueSimpleSuggest = require('vue-simple-suggest/dist/cjs')
 
 export default {
   name: 'ApiDataTable',
+  components: { VueSimpleSuggest: VueSimpleSuggest },
   data () {
     return {
       page: 1,
@@ -52,7 +65,11 @@ export default {
         column: null as null | string,
         asc: false as boolean
       },
-      tableFilterValue: null
+      tableFilterValue: null,
+      tableFilterSettings: {
+        placeholder: 'Search...',
+        suggestions: []
+      }
     }
   },
   props: {
@@ -78,13 +95,7 @@ export default {
       type: Boolean
     },
     tableFilter: {
-      default: () => {
-        return {
-          tooltip: null,
-          placeholder: 'Search...',
-          enabled: false
-        }
-      }
+      default: false
     },
     defaultSort: {
       type: Object,
@@ -124,7 +135,10 @@ export default {
       this.loadData()
       this.updateRouteQuery()
     },
-    tableFilterChange () {
+    tableFilterChange (val: string | unknown) {
+      if (typeof val === 'string') {
+        this.tableFilterValue = val
+      }
       this.updateRouteQuery()
       this.loadData()
     },
@@ -152,7 +166,27 @@ export default {
           sort: this.sort.column ? (this.sort.column + ',' + (this.sort.asc ? 'asc' : 'desc')) : undefined,
           tableFilter: this.tableFilterValue
         }
-      })
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {})
+    },
+    removeTableFilterSuggestion (suggestion: unknown) {
+      // eslint-disable-next-line eqeqeq
+      const index = this.tableFilterSettings.suggestions.indexOf(suggestion)
+      console.log(index, this.tableFilterSettings.suggestions)
+      if (index > -1) {
+        this.tableFilterSettings.suggestions.splice(index, 1)
+      }
+    }
+  },
+  watch: {
+    // eslint-disable-next-line
+      tableFilter: function (val: boolean | any) {
+      if (val.placeholder) {
+        this.tableFilterSettings.placeholder = val.placeholder
+      }
+      if (val.suggestions) {
+        this.tableFilterSettings.suggestions = this.tableFilterSettings.suggestions.splice(0, 0).concat(val.suggestions)
+      }
     }
   }
 }
