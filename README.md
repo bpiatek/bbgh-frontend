@@ -49,5 +49,6 @@ VUE_APP_API_HOST=<bbgh-backend api url>
 
 ```
 docker-compose -f .docker/prod/docker-compose.yaml stop
-APP_PORT=8081 docker-compose -f /docker-compose.prod.yaml up --build -d
+APP_PORT=8081 docker-compose -f docker-compose.prod.yaml up --build -d
 ```
+.
