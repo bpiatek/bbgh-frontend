@@ -6,6 +6,7 @@ import Dashboard from '@/views/Dashboard.vue'
 
 import Articles from '@/views/articles/Articles.vue'
 import Article from '@/views/articles/Article.vue'
+import Mentions from '@/views/mentions/Mentions.vue'
 
 Vue.use(Router)
 
@@ -47,7 +48,26 @@ function configRoutes () {
               component: Article
             }
           ]
+        },
+        {
+          path: 'mentions',
+          meta: {
+            label: 'Mentions'
+          },
+          component: {
+            render (c: (s: string) => unknown) {
+              return c('router-view')
+            }
+          },
+          children: [
+            {
+              path: '',
+              name: 'Mentions',
+              component: Mentions
+            }
+          ]
         }
+
       ]
     }
   ]

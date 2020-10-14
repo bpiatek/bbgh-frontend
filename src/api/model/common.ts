@@ -47,7 +47,7 @@ export interface PaginatedData<T> {
 }
 
 export class ListSearchParams extends URLSearchParams {
-  constructor (pagination: Pagination, sorts: Sort[]) {
+  constructor (pagination: Pagination, sorts: Sort[] = []) {
     super()
     this.append('page', pagination.page ? pagination.page.toString() : '0')
     this.append('size', pagination.size ? pagination.size.toString() : '20')

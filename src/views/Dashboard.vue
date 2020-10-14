@@ -12,6 +12,19 @@
         </CWidgetDropdown>
         </router-link>
       </CCol>
+
+      <CCol sm="6" lg="3">
+        <router-link
+          to="/mentions"
+        >
+          <CWidgetDropdown color="success" header="Mentions" :text="mentions.totalElements.toString()">
+            <template #footer v-if="articles.last">
+              <small class="text-sm-right"><i>we are still working on this</i></small>
+            </template>
+          </CWidgetDropdown>
+        </router-link>
+      </CCol>
+
     </CRow>
   </div>
 </template>
@@ -29,6 +42,9 @@ export default {
       articles: {
         totalElements: 0,
         last: undefined as undefined|Article
+      },
+      mentions: {
+        totalElements: 0
       }
     }
   },
@@ -37,6 +53,11 @@ export default {
       .then(r => {
         this.articles.totalElements = r.data.totalElements
         this.articles.last = r.data.content[0]
+      })
+
+    api.mentions.search(new Pagination(0, 1))
+      .then(r => {
+        this.mentions.totalElements = r.data.totalElements
       })
   }
 }
