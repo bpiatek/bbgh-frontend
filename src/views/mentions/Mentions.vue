@@ -9,7 +9,7 @@
           <ApiDataTable
             :items="items"
             :fields="fields"
-            :total-pages="totalPages"g
+            :total-pages="totalPages"
             :total-elements="totalElements"
             :loading="loading"
             @update="loadItems"
