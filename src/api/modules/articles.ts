@@ -12,7 +12,7 @@ export class ArticlesApi {
     return apiService.get('/articles', { params })
   }
 
-  article (id: number): ItemResponse<ArticleDetails> {
+  getById (id: number): ItemResponse<ArticleDetails> {
     return apiService.get(`/articles/${id}`)
   }
 

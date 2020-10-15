@@ -4,7 +4,7 @@ import { Comment, CommentOpinionStatusEnum } from '@/api/model/Comment'
 import { AxiosResponse } from 'axios'
 
 export class CommentsApi {
-  comment (id: number): ItemResponse<Comment> {
+  getById (id: number): ItemResponse<Comment> {
     return apiService.get(`/comment/${id}`)
   }
 

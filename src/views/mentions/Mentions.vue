@@ -9,7 +9,7 @@
           <ApiDataTable
             :items="items"
             :fields="fields"
-            :total-pages="totalPages"
+            :total-pages="totalPages"g
             :total-elements="totalElements"
             :loading="loading"
             @update="loadItems"
@@ -23,6 +23,7 @@
               </td>
             </template>
             <template #comment="{item}">
+
               <td>
                 {{ item.comment.content }}
               </td>
