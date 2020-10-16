@@ -35,11 +35,6 @@
                 <p><small>{{ dayjs(item.dateAdded).format('h:mm:ss DD/MM/YYYY')}}</small></p>
               </td>
             </template>
-            <template #opinionStatus="{item}">
-              <td>
-                <CommentOpinionStatus :comment-id="item.id" v-model="item.commentOpinionStatus"/>
-              </td>
-            </template>
           </ApiDataTable>
       </CCard>
     </CCol>
@@ -58,11 +53,10 @@ import ApiDataTable from '@/component/ApiDataTable.vue'
 import { Pagination, Sort } from '@/api/model/common'
 import api from '@/api/api'
 import { Article } from '@/api/model/Article'
-import CommentOpinionStatus from '@/component/comment/CommentOpinionStatus.vue'
 
 export default {
   name: 'Article',
-  components: { ApiDataTable, CommentOpinionStatus },
+  components: { ApiDataTable },
   data () {
     return {
       articleId: null as null|number,
@@ -70,7 +64,6 @@ export default {
       items: [],
       fields: [
         { key: 'info', _style: 'width:130px' },
-        { key: 'opinionStatus', _style: 'text-align: center;', sorter: false },
         { key: 'content', _style: '', sorter: false }
       ],
       totalPages: 1
@@ -78,7 +71,7 @@ export default {
   },
   created () {
     this.articleId = this.$route.params.id
-    api.articles.article(this.articleId).then((r) => {
+    api.articles.getById(this.articleId).then((r) => {
       this.article = r.data
     })
   },
