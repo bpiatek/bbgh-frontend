@@ -4,11 +4,8 @@ import { Article, ArticleDetails } from '../model/Article'
 import { Comment } from '@/api/model/Comment'
 
 export class ArticlesApi {
-  articles (pagination: Pagination, sorts: Sort[] = [], query?: string): ListResponse<Article> {
+  articles (pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
     const params = new ListSearchParams(pagination, sorts)
-    if (query) {
-      params.append('query', query)
-    }
     return apiService.get('/articles', { params })
   }
 
