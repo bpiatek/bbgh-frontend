@@ -1,18 +1,12 @@
 export type Mention = {
   id: number;
-  comment: MentionComment;
-  player: MentionPlayer;
-  sentiment: string;
-}
-
-
-export type MentionPlayer =  {
-  id: number;
-  firstName: string;
-  lastName: string;
-}
-
-export type MentionComment =  {
-  id: number;
-  content: string;
+  articleId: number;
+  commentId: number;
+  commentContent: string;
+  commentDate: string
+  playerId: number;
+  playerFullName: string;
+  startsAt: number;
+  endsAt: number;
+  mentionSentiment: string;
 }

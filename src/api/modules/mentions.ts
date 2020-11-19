@@ -3,8 +3,8 @@ import { Pagination, Sort, ListSearchParams, ListResponse, ItemResponse } from '
 import { Mention } from '@/api/model/Mention'
 
 export class MentionsApi {
-  search (pagination: Pagination): ListResponse<Mention> {
-    const params = new ListSearchParams(pagination)
+  search (pagination: Pagination, sorts: Sort[] = []): ListResponse<Mention> {
+    const params = new ListSearchParams(pagination, sorts)
 
     return apiService.get('/mentions', { params })
   }

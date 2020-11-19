@@ -14,18 +14,23 @@
             :loading="loading"
             @update="loadItems"
           >
-            <template #player="{item}">
-              <td v-if="item.player">
-                {{ item.player.firstName + " " + item.player.lastName }}
-              </td>
-              <td v-else>
-                -
+            <template #article="{item}">
+
+              <td>
+                <router-link :to="{name: 'Article', params: {id: item.articleId}}">link</router-link>
               </td>
             </template>
             <template #comment="{item}">
 
               <td>
                 {{ item.comment.content }}
+              </td>
+            </template>
+            <template #commentContent="{item}">
+              <td>
+                {{ item.commentContent.substr(0,item.startsAt) }}
+                <span :class="'mention-subject mention-'+item.mentionSentiment">{{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}</span>
+                {{ item.commentContent.substr(item.endsAt) }}
               </td>
             </template>
           </ApiDataTable>
@@ -37,7 +42,7 @@
 
 <script lang="ts">
 import ApiDataTable from '@/component/ApiDataTable.vue'
-import { Pagination } from '@/api/model/common'
+import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
 import { Mention } from '@/api/model/Mention'
 
@@ -48,10 +53,11 @@ export default {
     return {
       items: [] as Mention[],
       fields: [
-        { key: 'id', _style: 'width:75px' },
-        { key: 'comment', sorter: false },
-        { key: 'player', sorter: false },
-        { key: 'sentiment', sorter: false }
+        { key: 'id', _style: 'width:75px', sorter: false },
+        { key: 'article', sorter: false },
+        { key: 'commentContent', sorter: false },
+        { key: 'playerFullName', sorter: false, _style: 'white-space: nowrap;' },
+        { key: 'mentionSentiment', sorter: false }
       ],
       totalPages: 1,
       totalElements: 0,
@@ -61,7 +67,8 @@ export default {
   methods: {
     loadItems ({ pagination }: {pagination: Pagination}) {
       this.loading = true
-      api.mentions.search(pagination).then((r) => {
+      const sorts = [new Sort('id', SortDirection.desc)]
+      api.mentions.search(pagination, sorts).then((r) => {
         this.items = this.items.slice(0, 0).concat(r.data.content)
         this.totalPages = r.data.totalPages
         this.totalElements = r.data.totalElements
@@ -73,5 +80,22 @@ export default {
 </script>
 
 <style scoped>
-
+.mention-subject {
+  font-weight: bold;
+  color: black;
+  border-radius: 0.5rem;
+  padding: 0.125rem 0.5rem 0.125rem 0.5rem;
+}
+.mention-NOT_CHECKED {
+  background-color: #aaa;
+}
+.mention-POSITIVE {
+  background-color: lime;
+}
+.mention-NEUTRAL {
+  background-color: #00aced;
+}
+.mention-NEGATIVE {
+  background-color: #aa1b21;
+}
 </style>
