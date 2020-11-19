@@ -1,7 +1,7 @@
 <template>
 <!--  <CBadge :color="valueColors[value]">{{ value }}</CBadge>-->
     <CDropdown
-      class="comment-opinion-status-dropdown"
+      class="mention-sentiment-status-dropdown"
       :color="valueColors[value]"
       :toggler-text="value"
     >
@@ -17,26 +17,25 @@
 </template>
 
 <script lang="ts">
-import { CommentOpinionStatusEnum } from '@/api/model/Comment'
 import api from '@/api/api'
 import { Alert } from '@/store'
+import { MentionSentimentEnum } from '@/api/model/Mention'
 
 export default {
-  name: 'CommentOpinionStatus',
+  name: 'MentionSentimentEditor',
   data () {
     return {
-      enumValues: CommentOpinionStatusEnum,
+      enumValues: MentionSentimentEnum,
       valueColors: {
         POSITIVE: 'success',
         NEUTRAL: 'info',
         NEGATIVE: 'danger',
-        NOT_OPINION: '',
         NOT_CHECKED: 'secondary'
       }
     }
   },
   props: {
-    commentId: {
+    mentionId: {
       type: Number,
       required: true
     },
@@ -46,8 +45,8 @@ export default {
     }
   },
   methods: {
-    change (toValue: CommentOpinionStatusEnum) {
-      api.comments.setCommentStatus(this.commentId, { status: toValue })
+    change (toValue: MentionSentimentEnum) {
+      api.mentions.setMentionSentiment(this.mentionId, { mentionSentiment: toValue })
         .then(() => {
           this.$emit('input', toValue)
         })

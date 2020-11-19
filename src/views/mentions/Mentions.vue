@@ -29,8 +29,21 @@
             <template #commentContent="{item}">
               <td>
                 {{ item.commentContent.substr(0,item.startsAt) }}
-                <span :class="'mention-subject mention-'+item.mentionSentiment">{{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}</span>
+                <span
+                  :class="'mention-subject mention-'+item.mentionSentiment"
+                >
+                  {{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}
+                </span>
                 {{ item.commentContent.substr(item.endsAt) }}
+              </td>
+            </template>
+            <template #mentionSentiment="{item}">
+              <td>
+                <MentionSentimentEditor
+                  :mention-id="item.id"
+                  :value="item.mentionSentiment"
+                  @input="item.mentionSentiment = $event"
+                ></MentionSentimentEditor>
               </td>
             </template>
           </ApiDataTable>
@@ -45,10 +58,11 @@ import ApiDataTable from '@/component/ApiDataTable.vue'
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
 import { Mention } from '@/api/model/Mention'
+import MentionSentimentEditor from '@/component/mention/MentionSentimentEditor.vue'
 
 export default {
   name: 'Mentions',
-  components: { ApiDataTable },
+  components: { ApiDataTable, MentionSentimentEditor },
   data () {
     return {
       items: [] as Mention[],
@@ -87,15 +101,15 @@ export default {
   padding: 0.125rem 0.5rem 0.125rem 0.5rem;
 }
 .mention-NOT_CHECKED {
-  background-color: #aaa;
+  background-color: #ced2d8;
 }
 .mention-POSITIVE {
-  background-color: lime;
+  background-color: #2eb85c;
 }
 .mention-NEUTRAL {
-  background-color: #00aced;
+  background-color: #39f;
 }
 .mention-NEGATIVE {
-  background-color: #aa1b21;
+  background-color: #e55353;
 }
 </style>
