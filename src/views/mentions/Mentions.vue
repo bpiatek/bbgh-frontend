@@ -29,11 +29,8 @@
             <template #commentContent="{item}">
               <td>
                 {{ item.commentContent.substr(0,item.startsAt) }}
-                <span
-                  :class="'mention-subject mention-'+item.mentionSentiment"
-                >
-                  {{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}
-                </span>
+                <!--  one while to preserve whitespace-->
+                <span :class="'mention-subject mention-'+item.mentionSentiment">{{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}</span>
                 {{ item.commentContent.substr(item.endsAt) }}
               </td>
             </template>
