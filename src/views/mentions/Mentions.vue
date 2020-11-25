@@ -12,6 +12,7 @@
             :total-pages="totalPages"
             :total-elements="totalElements"
             :loading="loading"
+            use-query
             @update="loadItems"
           >
             <template #article="{item}">
