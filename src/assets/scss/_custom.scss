@@ -56,11 +56,11 @@
     margin-top: 0.75rem;
     .mention-sentiment-status-dropdown {
       button {
+        padding: 0;
         background: none;
         border-width: 0;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-        padding-bottom: 0;
         border-bottom-width: 3px;
       }
       button:hover {
