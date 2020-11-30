@@ -1,10 +1,7 @@
 <template>
   <CRow>
     <CCol col="12" xl="12">
-      <CCard>
-        <CCardHeader>
-          <h3>Articles</h3>
-        </CCardHeader>
+      <CCard class="card-border-round">
         <CCardBody>
           <ApiDataTable
             :items="items"
@@ -16,6 +13,9 @@
             :default-sort="{column: 'creationDate', asc: false }"
             @update="loadArticles"
           >
+            <slot slot="#header">
+              <h3>Articles</h3>
+            </slot>
             <template #url="{item}">
               <td>
                 <a :href="item.url">click</a>

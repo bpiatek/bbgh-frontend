@@ -1,10 +1,7 @@
 <template>
   <CRow>
     <CCol col="12" xl="12">
-      <CCard>
-        <CCardHeader>
-          <h3>Mentions</h3>
-        </CCardHeader>
+      <CCard class="card-border-round">
         <CCardBody>
           <ApiDataTable
             :items="items"
@@ -15,6 +12,9 @@
             use-query
             @update="loadItems"
           >
+            <slot slot="#header">
+              <h3>Mentions</h3>
+            </slot>
             <template #article="{item}">
 
               <td>

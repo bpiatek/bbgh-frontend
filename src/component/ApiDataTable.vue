@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <slot name="#header">
-    </slot>
+  <div class="datatable-container">
+    <div class="datatable-header">
+      <slot name="#header" class="datatable-header">
+      </slot>
+    </div>
     <div v-if="totalElements" class="text-right mb-2">Total items: {{ totalElements }}</div>
     <form @submit.prevent="tableFilterChange" v-if="tableFilter">
       <div class="api-data-table-filter">
@@ -39,7 +41,9 @@
         <slot :name="name" v-bind="data"></slot>
       </template>
     </CDataTable>
+    <hr/>
     <CPagination
+      class="datatable-pagination"
       v-show="totalPages > 1"
       :activePage="page"
       :pages="totalPages"

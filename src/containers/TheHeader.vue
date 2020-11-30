@@ -15,8 +15,13 @@
     </CHeaderBrand>
     <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
-        <CHeaderNavLink to="/dashboard">
-          Dashboard
+        <CHeaderNavLink to="/mentions">
+          Mentions
+        </CHeaderNavLink>
+      </CHeaderNavItem>
+      <CHeaderNavItem class="px-3">
+        <CHeaderNavLink to="/articles">
+          Articles
         </CHeaderNavLink>
       </CHeaderNavItem>
     </CHeaderNav>
@@ -31,6 +36,10 @@
 <script>
 export default {
   name: 'TheHeader',
-  components: {}
+  components: {},
+  mounted () {
+    // this.$store.commit('toggleSidebarMobile')
+    // this.$store.commit('toggleSidebarDesktop')
+  }
 }
 </script>

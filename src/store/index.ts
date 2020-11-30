@@ -9,7 +9,7 @@ type State = {
 }
 
 const state = {
-  sidebarShow: 'responsive',
+  sidebarShow: false,
   sidebarMinimize: false,
   alerts: [] as Alert[]
 }

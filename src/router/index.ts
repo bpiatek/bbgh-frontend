@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import TheContainer from '@/containers/TheContainer.vue'
-import Dashboard from '@/views/Dashboard.vue'
 
 import Articles from '@/views/articles/Articles.vue'
 import Article from '@/views/articles/Article.vue'
@@ -14,15 +13,10 @@ function configRoutes () {
   return [
     {
       path: '/',
-      redirect: '/dashboard',
+      redirect: '/mentions',
       name: 'Home',
       component: TheContainer,
       children: [
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          component: Dashboard
-        },
         {
           path: 'articles',
           meta: {
@@ -51,21 +45,23 @@ function configRoutes () {
         },
         {
           path: 'mentions',
+          name: 'Mentions',
+          component: Mentions,
           meta: {
             label: 'Mentions'
-          },
-          component: {
-            render (c: (s: string) => unknown) {
-              return c('router-view')
-            }
-          },
-          children: [
-            {
-              path: '',
-              name: 'Mentions',
-              component: Mentions
-            }
-          ]
+          }
+          // component: {
+          //   render (c: (s: string) => unknown) {
+          //     return c('router-view')
+          //   }
+          // },
+          // children: [
+          //   {
+          //     path: '',
+          //     name: 'Mentions',
+          //     component: Mentions
+          //   }
+          // ]
         }
 
       ]

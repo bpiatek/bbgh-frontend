@@ -1,5 +1,10 @@
 // Here you can add other styles
 
+.c-main {
+  max-width: 1600px;
+  margin: auto;
+}
+
 .mention-sentiment-status-dropdown .dropdown-toggle {
   min-width: 150px;
 }
@@ -17,4 +22,22 @@
 
 .vue-simple-suggest {
   width: 100%;
+}
+
+.datatable-container {
+  > * {
+    text-align: left;
+  }
+  text-align: center;
+  .datatable-pagination {
+    display: inline-block;
+  }
+
+  .datatable-header {
+    text-align: center;
+  }
+}
+
+.card-border-round {
+  border-radius: 1rem;
 }
