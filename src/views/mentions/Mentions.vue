@@ -1,6 +1,4 @@
 <template>
-  <CRow>
-    <CCol col="12" xl="12">
       <CCard class="card-border-round ">
         <CCardBody>
           <ApiDataTable
@@ -92,8 +90,6 @@
           </ApiDataTable>
         </CCardBody>
       </CCard>
-    </CCol>
-  </CRow>
 </template>
 
 <script lang="ts">
