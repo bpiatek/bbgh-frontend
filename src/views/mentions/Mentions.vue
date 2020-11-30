@@ -64,20 +64,13 @@
               <td class="mentions-mobile-comment">
                 <div class="mentions-mobile-comment-header">
                     <MentionSentimentEditor
-                      style="float: left;"
                       :mention-id="item.id"
                       :value="item.mentionSentiment"
                       :player="item.playerFullName"
                       @input="item.mentionSentiment = $event"
                     ></MentionSentimentEditor>
-                  <div class="text-right text-nowrap">
-                      <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
-                        <span class="separator">|</span>
-                        <strong class="text-nowrap">
-                          <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
-                        </strong>
-                  </div>
                 </div>
+                <hr class="mt-1 mb-1">
                 <div class="mentions-mobile-comment-content">
                   {{ item.commentContent.substr(0, item.startsAt) }}
                   <MentionSentimentEditor
@@ -87,6 +80,12 @@
                     :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
                   ></MentionSentimentEditor>
                   {{ item.commentContent.substr(item.endsAt) }}
+                </div>
+                <div class="text-nowrap pt-1 mt-1 b-t-1 text-right">
+                  <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
+                  <span class="text-nowrap pl-2">
+                    <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
+                  </span>
                 </div>
               </td>
             </template>

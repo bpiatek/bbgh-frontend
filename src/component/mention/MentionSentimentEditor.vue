@@ -1,13 +1,9 @@
 <template>
-<!--  <CBadge :color="valueColors[value]">{{ value }}</CBadge>-->
     <CDropdown
       class="mention-sentiment-status-dropdown"
       :color="valueColors[value]"
       :toggler-text="player"
     >
-<!--      <slot slot="#toggler-content">-->
-<!--        <span>fifif</span>-->
-<!--      </slot>-->
       <CDropdownItem
         v-for="(v, index) in enumValues"
         :key="index"
