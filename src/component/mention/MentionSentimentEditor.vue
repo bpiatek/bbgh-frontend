@@ -3,8 +3,11 @@
     <CDropdown
       class="mention-sentiment-status-dropdown"
       :color="valueColors[value]"
-      :toggler-text="$t('sentiment.'+value)"
+      :toggler-text="player"
     >
+<!--      <slot slot="#toggler-content">-->
+<!--        <span>fifif</span>-->
+<!--      </slot>-->
       <CDropdownItem
         v-for="(v, index) in enumValues"
         :key="index"
@@ -40,6 +43,10 @@ export default {
       required: true
     },
     value: {
+      type: String,
+      required: true
+    },
+    player: {
       type: String,
       required: true
     }
