@@ -18,6 +18,7 @@
       "article": "Artykuł",
       "comment": "Komentarz",
       "player": "Zawodnik",
+      "commentDate": "Data",
       "sentiment": "Sentyment"
     }
   },

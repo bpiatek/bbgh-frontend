@@ -18,6 +18,7 @@
       "article": "Article",
       "comment": "Comment",
       "player": "Player",
+      "commentDate": "Comment Date",
       "sentiment": "Sentiment"
     }
   },

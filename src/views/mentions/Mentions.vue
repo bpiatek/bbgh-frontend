@@ -15,6 +15,11 @@
             <slot slot="#header">
               <h3>{{ $t('mentions.list_header') }}</h3>
             </slot>
+            <template #commentDate="{item}">
+              <td class="text-nowrap text-xl-right">
+                {{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}
+              </td>
+            </template>
             <template #article="{item}">
 
               <td>
@@ -69,6 +74,7 @@ export default {
         { key: 'article', sorter: false, label: this.$t('mentions.list.article') },
         { key: 'commentContent', sorter: false, label: this.$t('mentions.list.comment') },
         { key: 'playerFullName', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.player') },
+        { key: 'commentDate', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.commentDate') },
         { key: 'mentionSentiment', sorter: false, label: this.$t('mentions.list.sentiment') }
       ],
       totalPages: 1,
