@@ -12,9 +12,8 @@
             {{ article.title }}
           </h3>
           <CRow>
-            <CCol col="1">ID: {{ article.id }}</CCol>
-            <CCol col="6"><a :href="article.url">{{ article.url.length > 60 ? article.url.substring(0, 57) + '...' : article.url }}</a></CCol>
-            <CCol col="5" class="text-right">{{ article.creationDate }}</CCol>
+            <CCol col="12"><a :href="article.url">{{ article.url }}</a></CCol>
+            <CCol col="12" class="text-nowrap">{{ dayjs(article.creationDate).format('YYYY-MM-DD h:mm:ss') }}</CCol>
           </CRow>
           <hr/>
           {{ article.content }}
@@ -33,8 +32,10 @@
         >
           <template #info="{item}">
             <td>
-              <p><i>{{item.author}}</i></p>
-              <p><small>{{ dayjs(item.dateAdded).format('h:mm:ss DD/MM/YYYY')}}</small></p>
+              {{ item.content }}
+              <div class="text-right">
+                <i>{{item.author}}, {{ dayjs(item.dateAdded).format('YYYY-MM-DD h:mm:ss')}}</i>
+              </div>
             </td>
           </template>
         </ApiDataTable>
@@ -58,8 +59,7 @@ export default {
       article: null as null|Article,
       items: [],
       fields: [
-        { key: 'info', _style: 'width:130px' },
-        { key: 'content', _style: '', sorter: false }
+        { key: 'info' }
       ],
       totalPages: 1
     }
