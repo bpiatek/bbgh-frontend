@@ -6,12 +6,14 @@ type State = {
   sidebarShow: string|boolean;
   sidebarMinimize: boolean;
   alerts: Alert[];
+  mobile: boolean;
 }
 
 const state = {
   sidebarShow: false,
   sidebarMinimize: false,
-  alerts: [] as Alert[]
+  alerts: [] as Alert[],
+  mobile: true
 }
 
 const mutations = {
@@ -34,6 +36,9 @@ const mutations = {
     setTimeout(function () {
       state.alerts = state.alerts.filter((a: Alert) => a !== alert)
     }, alert.timeout)
+  },
+  setMobile (state: State, value: boolean) {
+    state.mobile = value
   }
 }
 

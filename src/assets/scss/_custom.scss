@@ -1,4 +1,7 @@
 // Here you can add other styles
+.c-body {
+  overflow: auto;
+}
 
 .c-main {
   max-width: 1600px;
@@ -24,6 +27,11 @@
   width: 100%;
 }
 
+.c-sidebar-backdrop {
+  height: 100%;
+  width: 100%;
+}
+
 .datatable-container {
   > * {
     text-align: left;
@@ -40,4 +48,24 @@
 
 .card-border-round {
   border-radius: 1rem;
+}
+
+.mentions-mobile-info {
+  p {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .mentions-mobile-info-player {
+    font-weight: bold;
+  }
+  .mentions-mobile-info-sentiment {
+    margin-top: 0.25rem;
+  }
+}
+
+.mentions-mobile-comment {
+  .mentions-mobile-comment-footer {
+    padding-top: 1rem;
+    text-align: right;
+  }
 }
