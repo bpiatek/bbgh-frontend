@@ -19,7 +19,8 @@
       "comment": "Komentarz",
       "player": "Zawodnik",
       "commentDate": "Data",
-      "sentiment": "Sentyment"
+      "sentiment": "Sentyment",
+      "mobileInfo": "Informacje"
     }
   },
   "sentiment": {

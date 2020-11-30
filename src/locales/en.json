@@ -19,7 +19,8 @@
       "comment": "Comment",
       "player": "Player",
       "commentDate": "Comment Date",
-      "sentiment": "Sentiment"
+      "sentiment": "Sentiment",
+      "mobileInfo": "Info"
     }
   },
   "sentiment": {
