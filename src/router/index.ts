@@ -55,6 +55,10 @@ function configRoutes () {
         }
 
       ]
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 }
