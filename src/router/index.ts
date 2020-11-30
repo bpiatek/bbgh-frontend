@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 import TheContainer from '@/containers/TheContainer.vue'
-
 import Articles from '@/views/articles/Articles.vue'
 import Article from '@/views/articles/Article.vue'
 import Mentions from '@/views/mentions/Mentions.vue'
+import i18n from '../i18n'
 
 Vue.use(Router)
 
@@ -15,12 +14,15 @@ function configRoutes () {
       path: '/',
       redirect: '/mentions',
       name: 'Home',
+      meta: {
+        label: i18n.tc('Home')
+      },
       component: TheContainer,
       children: [
         {
           path: 'articles',
           meta: {
-            label: 'Articles'
+            label: i18n.tc('Articles')
           },
           component: {
             render (c: (s: string) => unknown) {
@@ -30,13 +32,13 @@ function configRoutes () {
           children: [
             {
               path: '',
-              name: 'Articles',
+              name: i18n.tc('Articles'),
               component: Articles
             },
             {
               path: ':id',
               meta: {
-                label: 'Article Details'
+                label: i18n.tc('Article Details')
               },
               name: 'Article',
               component: Article
@@ -48,20 +50,8 @@ function configRoutes () {
           name: 'Mentions',
           component: Mentions,
           meta: {
-            label: 'Mentions'
+            label: i18n.tc('Mentions')
           }
-          // component: {
-          //   render (c: (s: string) => unknown) {
-          //     return c('router-view')
-          //   }
-          // },
-          // children: [
-          //   {
-          //     path: '',
-          //     name: 'Mentions',
-          //     component: Mentions
-          //   }
-          // ]
         }
 
       ]

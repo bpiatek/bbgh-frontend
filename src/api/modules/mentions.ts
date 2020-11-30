@@ -1,5 +1,5 @@
 import apiService from '../ApiService'
-import { Pagination, Sort, ListSearchParams, ListResponse, ItemResponse } from '../model/common'
+import { Pagination, Sort, ListSearchParams, ListResponse } from '../model/common'
 import { Mention, MentionSentimentEnum } from '@/api/model/Mention'
 
 import { AxiosResponse } from 'axios'

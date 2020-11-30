@@ -7,9 +7,10 @@ import icons from './assets/icons/icons'
 import ApiService from '@/api/ApiService'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import i18n from './i18n'
 
 // init env things
-ApiService.init(process.env.VUE_APP_API_HOST)
+ApiService.init(process.env.VUE_APP_API_HOST !== undefined ? process.env.VUE_APP_API_HOST : '')
 
 // dayjs plugins
 dayjs.extend(relativeTime)
@@ -32,6 +33,7 @@ new Vue({
   router,
   store,
   icons,
+  i18n,
   render: h => h(App)
 }).$mount('#app')
 

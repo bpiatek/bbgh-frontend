@@ -3,7 +3,7 @@
     <CDropdown
       class="mention-sentiment-status-dropdown"
       :color="valueColors[value]"
-      :toggler-text="value"
+      :toggler-text="$t('sentiment.'+value)"
     >
       <CDropdownItem
         v-for="(v, index) in enumValues"
@@ -11,7 +11,7 @@
         :class="'bg-'+valueColors[v]"
         @click="change(v)"
       >
-        {{ v }}
+        {{ $t("sentiment."+v) }}
       </CDropdownItem>
     </CDropdown>
 </template>

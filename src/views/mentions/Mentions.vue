@@ -1,7 +1,7 @@
 <template>
   <CRow>
     <CCol col="12" xl="12">
-      <CCard class="card-border-round">
+      <CCard class="card-border-round ">
         <CCardBody>
           <ApiDataTable
             :items="items"
@@ -13,7 +13,7 @@
             @update="loadItems"
           >
             <slot slot="#header">
-              <h3>Mentions</h3>
+              <h3>{{ $t('mentions.list_header') }}</h3>
             </slot>
             <template #article="{item}">
 
@@ -65,11 +65,11 @@ export default {
     return {
       items: [] as Mention[],
       fields: [
-        { key: 'id', _style: 'width:75px', sorter: false },
-        { key: 'article', sorter: false },
-        { key: 'commentContent', sorter: false },
-        { key: 'playerFullName', sorter: false, _style: 'white-space: nowrap;' },
-        { key: 'mentionSentiment', sorter: false }
+        { key: 'id', _style: 'width:75px', sorter: false, label: this.$t('mentions.list.id') },
+        { key: 'article', sorter: false, label: this.$t('mentions.list.article') },
+        { key: 'commentContent', sorter: false, label: this.$t('mentions.list.comment') },
+        { key: 'playerFullName', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.player') },
+        { key: 'mentionSentiment', sorter: false, label: this.$t('mentions.list.sentiment') }
       ],
       totalPages: 1,
       totalElements: 0,

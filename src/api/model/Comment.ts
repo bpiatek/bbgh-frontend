@@ -5,4 +5,3 @@ export interface Comment {
   dateAdded: string;
   content: string;
 }
-

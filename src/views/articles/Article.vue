@@ -1,48 +1,43 @@
 <template>
-  <CRow v-if="article">
-    <CCol col="12">
+  <CRow>
+    <CCol col="12" v-if="article">
       <CCard>
         <CCardHeader>
+          <div>
+            <CButton color="primary" @click="goBack">{{ $t('actions.go_back') }}</CButton>
+          </div>
+        </CCardHeader>
+        <CCardBody>
           <h3>
-              {{ article.title }}
+            {{ article.title }}
           </h3>
           <CRow>
             <CCol col="1">ID: {{ article.id }}</CCol>
             <CCol col="6"><a :href="article.url">{{ article.url.length > 60 ? article.url.substring(0, 57) + '...' : article.url }}</a></CCol>
             <CCol col="5" class="text-right">{{ article.creationDate }}</CCol>
           </CRow>
-        </CCardHeader>
-        <CCardBody>
+          <hr/>
           {{ article.content }}
         </CCardBody>
       </CCard>
     </CCol>
-    <CCol col="12">
+    <CCol col="12" v-if="article">
       <CCard>
-        <CCardHeader>
-          <h5>Comments</h5>
-        </CCardHeader>
-          <ApiDataTable
-            :items="items"
-            :fields="fields"
-            :total-pages="totalPages"
-            :size="50"
-            @update="loadComments"
-          >
-            <template #info="{item}">
-              <td>
-                <p><i>{{item.author}}</i></p>
-                <p><small>{{ dayjs(item.dateAdded).format('h:mm:ss DD/MM/YYYY')}}</small></p>
-              </td>
-            </template>
-          </ApiDataTable>
-      </CCard>
-    </CCol>
-    <CCol col="12">
-      <CCard>
-        <CCardFooter>
-          <CButton color="primary" @click="goBack">Back</CButton>
-        </CCardFooter>
+        <ApiDataTable
+          :items="items"
+          :fields="fields"
+          :total-pages="totalPages"
+          :size="50"
+          :header="false"
+          @update="loadComments"
+        >
+          <template #info="{item}">
+            <td>
+              <p><i>{{item.author}}</i></p>
+              <p><small>{{ dayjs(item.dateAdded).format('h:mm:ss DD/MM/YYYY')}}</small></p>
+            </td>
+          </template>
+        </ApiDataTable>
       </CCard>
     </CCol>
   </CRow>

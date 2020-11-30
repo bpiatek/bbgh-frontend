@@ -4,28 +4,9 @@
       <slot name="#header" class="datatable-header">
       </slot>
     </div>
-    <div v-if="totalElements" class="text-right mb-2">Total items: {{ totalElements }}</div>
+    <div v-if="totalElements" class="text-right mb-2">{{ $t('datatable.total_items') }}: {{ totalElements }}</div>
     <form @submit.prevent="tableFilterChange" v-if="tableFilter">
       <div class="api-data-table-filter">
-        <VueSimpleSuggest
-          ref="tableFilter"
-          :list="tableFilterSettings.suggestions"
-          :filter-by-query="false"
-          :placeholder="tableFilterSettings.placeholder"
-          :min-length="0"
-          :controls="{autocomplete: []}"
-          @select="tableFilterChange"
-          @input="tableFilterValue = $event"
-          @hide-list="tableFilterChange"
-        >
-          <div slot="suggestion-item" slot-scope="{ suggestion }" class="overflow-auto">
-            <span class="float-left mt-1">{{ suggestion }}</span>
-<!--            TODO fix removing-->
-<!--            <button @click.stop="removeTableFilterSuggestion(suggestion)" class="float-right btn btn-sm btn-ghost-secondary">-->
-<!--              <CIcon name="cilX"/>-->
-<!--            </button>-->
-          </div>
-        </VueSimpleSuggest>
       </div>
     </form>
     <CDataTable
@@ -35,13 +16,14 @@
       :sorter="{external: true, resetable: false}"
       :loading="loading"
       :sorter-value="sort"
+      :header="header"
       @update:sorter-value="updateSort"
     >
       <template v-for="(_, name) in $scopedSlots" v-slot:[name]="data">
         <slot :name="name" v-bind="data"></slot>
       </template>
     </CDataTable>
-    <hr/>
+    <hr v-show="totalPages > 1" />
     <CPagination
       class="datatable-pagination"
       v-show="totalPages > 1"
@@ -54,14 +36,10 @@
 
 <script lang="ts">
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
-import 'vue-simple-suggest/dist/styles.css'
-// import VueSimpleSuggest from 'vue-simple-suggest/lib/vue-simple-suggest.vue' // Optional CSS
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const VueSimpleSuggest = require('vue-simple-suggest/dist/cjs')
 
 export default {
   name: 'ApiDataTable',
-  components: { VueSimpleSuggest: VueSimpleSuggest },
+  components: {},
   data () {
     return {
       page: 1,
@@ -71,8 +49,7 @@ export default {
       },
       tableFilterValue: null,
       tableFilterSettings: {
-        placeholder: 'Search...',
-        suggestions: []
+        placeholder: 'Search...'
       }
     }
   },
@@ -100,6 +77,9 @@ export default {
     },
     tableFilter: {
       default: false
+    },
+    header: {
+      default: true
     },
     defaultSort: {
       type: Object,
@@ -172,25 +152,6 @@ export default {
         }
         // eslint-disable-next-line @typescript-eslint/no-empty-function
       }).catch(() => {})
-    },
-    removeTableFilterSuggestion (suggestion: unknown) {
-      // eslint-disable-next-line eqeqeq
-      const index = this.tableFilterSettings.suggestions.indexOf(suggestion)
-      console.log(index, this.tableFilterSettings.suggestions)
-      if (index > -1) {
-        this.tableFilterSettings.suggestions.splice(index, 1)
-      }
-    }
-  },
-  watch: {
-    // eslint-disable-next-line
-      tableFilter: function (val: boolean | any) {
-      if (val.placeholder) {
-        this.tableFilterSettings.placeholder = val.placeholder
-      }
-      if (val.suggestions) {
-        this.tableFilterSettings.suggestions = this.tableFilterSettings.suggestions.splice(0, 0).concat(val.suggestions)
-      }
     }
   }
 }

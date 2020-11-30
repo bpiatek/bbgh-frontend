@@ -16,12 +16,12 @@
     <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/mentions">
-          Mentions
+          {{ $t('Mentions') }}
         </CHeaderNavLink>
       </CHeaderNavItem>
       <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/articles">
-          Articles
+          {{ $t('Articles') }}
         </CHeaderNavLink>
       </CHeaderNavItem>
     </CHeaderNav>
@@ -36,10 +36,6 @@
 <script>
 export default {
   name: 'TheHeader',
-  components: {},
-  mounted () {
-    // this.$store.commit('toggleSidebarMobile')
-    // this.$store.commit('toggleSidebarDesktop')
-  }
+  components: {}
 }
 </script>

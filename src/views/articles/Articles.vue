@@ -14,11 +14,11 @@
             @update="loadArticles"
           >
             <slot slot="#header">
-              <h3>Articles</h3>
+              <h3>{{ $t('articles.list_header') }}</h3>
             </slot>
             <template #url="{item}">
               <td>
-                <a :href="item.url">click</a>
+                <a :href="item.url">link</a>
               </td>
             </template>
             <template #title="{item}">
@@ -43,7 +43,7 @@
                   color="info"
                   variant="outline"
                   size="sm"
-                >Show</CButton>
+                >{{ $t('datatable.action.show_details') }}</CButton>
               </td>
             </template>
           </ApiDataTable>
@@ -66,13 +66,13 @@ export default {
     return {
       items: [] as Article[],
       fields: [
-        { key: 'id', _style: 'width:75px' },
-        { key: 'url', _style: 'width:75px', sorter: false },
-        { key: 'title', _style: 'min-width:200px;' },
-        { key: 'creationDate', _style: 'width: 1%; white-space: nowrap;' },
+        { key: 'id', _style: 'width:75px', label: this.$t('articles.list.id') },
+        { key: 'url', _style: 'width:75px', sorter: false, label: this.$t('articles.list.url') },
+        { key: 'title', _style: 'min-width:200px;', label: this.$t('articles.list.title') },
+        { key: 'creationDate', _style: 'width: 1%; white-space: nowrap;', label: this.$t('articles.list.creationDate') },
         {
           key: 'actions',
-          label: 'Actions',
+          label: this.$t('datatable.actions'),
           _style: 'width:1%',
           sorter: false,
           filter: false

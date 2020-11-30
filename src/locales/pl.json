@@ -1,0 +1,42 @@
+{
+  "Home": "Strona główna",
+  "Articles": "Artykuły",
+  "Mentions": "Wzmianki",
+  "Comments": "Komentarze",
+  "Article Details": "Szczegóły Artykułu",
+  "datatable": {
+    "total_items": "W sumie",
+    "actions": "Akcje",
+    "action": {
+      "show_details": "Szczególy"
+    }
+  },
+  "mentions": {
+    "list_header": "Wzmianki",
+    "list": {
+      "id": "Id",
+      "article": "Artykuł",
+      "comment": "Komentarz",
+      "player": "Zawodnik",
+      "sentiment": "Sentyment"
+    }
+  },
+  "sentiment": {
+    "NOT_CHECKED": "Do sprawdzenia",
+    "POSITIVE": "Pozytywny",
+    "NEGATIVE": "Negatywny",
+    "NEUTRAL": "Obojętny"
+  },
+  "articles": {
+    "list_header": "Artykuły",
+    "list": {
+      "id": "Id",
+      "url": "Url",
+      "title": "Tytuł",
+      "creationDate": "Data dodania"
+    }
+  },
+  "actions": {
+    "go_back": "Cofnij"
+  }
+}

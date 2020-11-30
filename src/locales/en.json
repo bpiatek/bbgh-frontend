@@ -1,0 +1,42 @@
+{
+  "Home": "Home",
+  "Articles": "Articles",
+  "Mentions": "Mentions",
+  "Comments": "Comments",
+  "Article Details": "Article Details",
+  "datatable": {
+    "total_items": "Total items",
+    "actions": "Actions",
+    "action": {
+      "show_details": "Details"
+    }
+  },
+  "mentions": {
+    "list_header": "Mentions",
+    "list": {
+      "id": "Id",
+      "article": "Article",
+      "comment": "Comment",
+      "player": "Player",
+      "sentiment": "Sentiment"
+    }
+  },
+  "sentiment": {
+    "NOT_CHECKED": "Not checked",
+    "POSITIVE": "Positive",
+    "NEGATIVE": "Negative",
+    "NEUTRAL": "Neutral"
+  },
+  "articles": {
+    "list_header": "Articles",
+    "list": {
+      "id": "Id",
+      "url": "Url",
+      "title": "Title",
+      "creationDate": "Creation date"
+    }
+  },
+  "actions": {
+    "go_back": "Back"
+  }
+}
