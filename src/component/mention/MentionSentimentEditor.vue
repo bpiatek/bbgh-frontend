@@ -3,6 +3,7 @@
       class="mention-sentiment-status-dropdown"
       :color="valueColors[value]"
       :toggler-text="player"
+      :add-toggler-classes="'btn-mention-sentiment'"
     >
       <CDropdownItem
         v-for="(v, index) in enumValues"
@@ -54,7 +55,6 @@ export default {
           this.$emit('input', toValue)
         })
         .catch(() => {
-          console.log('Trying to store new alert')
           this.$store.commit('addAlert', Alert.warning('Something wrong'))
         })
     }

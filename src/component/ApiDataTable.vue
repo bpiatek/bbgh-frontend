@@ -1,14 +1,14 @@
 <template>
   <div class="datatable-container">
-    <div class="datatable-header pt-3">
+    <div class="datatable-header pt-3 b-b-2">
       <slot name="#header" class="datatable-header">
       </slot>
     </div>
-    <div v-if="totalElements" class="text-right pb-2 pr-2">{{ $t('datatable.total_items') }}: {{ totalElements }}</div>
-    <form @submit.prevent="tableFilterChange" v-if="tableFilter">
-      <div class="api-data-table-filter">
-      </div>
-    </form>
+    <div class="datatable-filters p-2 b-b-2">
+      <slot name="#filters" class="datatable-filters">
+      </slot>
+    </div>
+    <div v-if="totalElements" class="text-right pt-1 pb-1 pr-2"><small>{{ $t('datatable.total_items') }}: {{ totalElements }}</small></div>
     <CDataTable
       :fields="fields"
       :items="items"

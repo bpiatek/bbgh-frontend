@@ -18,7 +18,6 @@ export default {
     handleResize () {
       const mobile = window.innerWidth < 992
       if (this.$store.state.mobile !== mobile) {
-        console.log('łapdate')
         this.$store.commit('setMobile', mobile)
       }
     }

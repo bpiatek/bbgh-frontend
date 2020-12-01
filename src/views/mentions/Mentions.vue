@@ -11,6 +11,38 @@
         use-query
         @update="loadItems"
       >
+        <slot slot="#filters">
+          <CRow>
+            <CCol lg="6" md="12"></CCol>
+            <CCol lg="6" md="12">
+              <multiselect
+                ref="sentimentFilter"
+                class="mentions-sentiment-filter"
+                v-model="filterSentiment"
+                :searchable="false"
+                :multiple="true"
+                :clear-on-select="false"
+                :hide-selected="true"
+                :placeholder="$t('Sentiment')"
+                label="label"
+                track-by="value"
+                :show-labels="false"
+                @input="loadItems"
+                :options="filterSentimentOptions">
+                <template slot="tag" slot-scope="props">
+                  <button
+                    :class="'multiselect-selected btn btn-mention-sentiment sentiment-'+ props.option.value"
+                    @keypress.enter.prevent="$refs.sentimentFilter.removeElement(props.option)"
+                    @mousedown.prevent="$refs.sentimentFilter.removeElement(props.option)"
+                  >{{ props.option.label }}</button>
+                </template>
+                <template slot="option" slot-scope="props">
+                  <button :class="'btn btn-mention-sentiment sentiment-'+ props.option.value">{{ props.option.label }}</button>
+                </template>
+              </multiselect>
+            </CCol>
+          </CRow>
+        </slot>
         <slot slot="#header">
           <h3>{{ $t('mentions.list_header') }}</h3>
         </slot>
@@ -48,12 +80,18 @@
         </template>
         <template #mobileComment="{item}">
           <td class="mentions-mobile-comment">
-            {{ item.commentContent.substr(0, item.startsAt) }}<span :class="'mention-subject mention-'+item.mentionSentiment">{{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}</span>{{ item.commentContent.substr(item.endsAt) }}
+            {{ item.commentContent.substr(0, item.startsAt) }}<span
+            :class="'mention-subject mention-'+item.mentionSentiment">{{
+              item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)
+            }}</span>{{ item.commentContent.substr(item.endsAt) }}
             <br>
             <div class="mentions-mobile-comment-footer">
               <i>{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i> |
               <strong>
-                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
+                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{
+                    $t('mentions.list.article')
+                  }}
+                </router-link>
               </strong>
             </div>
           </td>
@@ -61,12 +99,12 @@
         <template #mobile="{item}">
           <td class="mentions-mobile-comment">
             <div class="mentions-mobile-comment-header">
-                <MentionSentimentEditor
-                  :mention-id="item.id"
-                  :value="item.mentionSentiment"
-                  :player="item.playerFullName"
-                  @input="item.mentionSentiment = $event"
-                ></MentionSentimentEditor>
+              <MentionSentimentEditor
+                :mention-id="item.id"
+                :value="item.mentionSentiment"
+                :player="item.playerFullName"
+                @input="item.mentionSentiment = $event"
+              ></MentionSentimentEditor>
             </div>
             <hr class="mt-1 mb-1">
             <div class="mentions-mobile-comment-content">
@@ -82,7 +120,9 @@
             <div class="text-nowrap pt-1 mt-1 b-t-1 text-right">
               <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
               <span class="text-nowrap pl-2">
-                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
+                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{
+                    $t('mentions.list.article')
+                  }}</router-link>
               </span>
             </div>
           </td>
@@ -98,10 +138,11 @@ import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
 import { Mention } from '@/api/model/Mention'
 import MentionSentimentEditor from '@/component/mention/MentionSentimentEditor.vue'
+import Multiselect from 'vue-multiselect'
 
 export default {
   name: 'Mentions',
-  components: { ApiDataTable, MentionSentimentEditor },
+  components: { ApiDataTable, MentionSentimentEditor, Multiselect },
   data () {
     return {
       items: [] as Mention[],
@@ -117,59 +158,34 @@ export default {
       totalPages: 1,
       totalElements: 0,
       loading: false,
-      window: {
-        width: 0,
-        height: 0
-      }
+      filterSentiment: [],
+      filterSentimentOptions: [
+        { value: 'NOT_CHECKED', label: this.$t('sentiment.NOT_CHECKED') },
+        { value: 'POSITIVE', label: this.$t('sentiment.POSITIVE') },
+        { value: 'NEUTRAL', label: this.$t('sentiment.NEUTRAL') },
+        { value: 'NEGATIVE', label: this.$t('sentiment.NEGATIVE') }
+      ],
+      pagination: null
     }
   },
-  created () {
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize()
-  },
-  destroyed () {
-    window.removeEventListener('resize', this.handleResize)
-  },
   methods: {
-    loadItems ({ pagination }: { pagination: Pagination }) {
+    loadItems ({ pagination }: { pagination: Pagination|undefined }) {
       this.loading = true
+      const truePagination = pagination !== undefined ? pagination : this.pagination
+      this.pagination = truePagination
       const sorts = [new Sort('id', SortDirection.desc)]
-      api.mentions.search(pagination, sorts).then((r) => {
+      const sentiments = this.filterSentiment.map((s: {value: string}) => s.value)
+      api.mentions.search(truePagination, sorts, sentiments).then((r) => {
         this.items = this.items.slice(0, 0).concat(r.data.content)
         this.totalPages = r.data.totalPages
         this.totalElements = r.data.totalElements
         this.loading = false
       })
-    },
-    handleResize () {
-      this.window.width = window.innerWidth
-      this.window.height = window.innerHeight
     }
   }
 }
 </script>
 
 <style scoped>
-.mention-subject {
-  font-weight: bold;
-  color: black;
-  border-radius: 0.5rem;
-  padding: 0.125rem 0.5rem 0.125rem 0.5rem;
-}
 
-.mention-NOT_CHECKED {
-  background-color: #ced2d8;
-}
-
-.mention-POSITIVE {
-  background-color: #2eb85c;
-}
-
-.mention-NEUTRAL {
-  background-color: #39f;
-}
-
-.mention-NEGATIVE {
-  background-color: #e55353;
-}
 </style>

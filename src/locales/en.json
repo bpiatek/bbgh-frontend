@@ -3,6 +3,7 @@
   "Articles": "Articles",
   "Mentions": "Mentions",
   "Comments": "Comments",
+  "Sentiment": "Sentiment",
   "Article Details": "Article Details",
   "datatable": {
     "total_items": "Total items",
