@@ -18,9 +18,17 @@
   padding-right: 0;
 }
 
+@media (max-width: 768px) {
+  .card-body {
+    padding: 0;
+  }
+}
+
 .card-border-round {
   border-radius: 1rem;
 }
+
+
 
 .mention-sentiment-status-dropdown {
   display: inline-block;

@@ -1,10 +1,10 @@
 <template>
   <div class="datatable-container">
-    <div class="datatable-header">
+    <div class="datatable-header pt-3">
       <slot name="#header" class="datatable-header">
       </slot>
     </div>
-    <div v-if="totalElements" class="text-right mb-2">{{ $t('datatable.total_items') }}: {{ totalElements }}</div>
+    <div v-if="totalElements" class="text-right pb-2 pr-2">{{ $t('datatable.total_items') }}: {{ totalElements }}</div>
     <form @submit.prevent="tableFilterChange" v-if="tableFilter">
       <div class="api-data-table-filter">
       </div>

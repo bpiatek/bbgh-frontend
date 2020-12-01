@@ -1,5 +1,5 @@
 <template>
-      <CCard class="card-border-round ">
+      <CCard class="card-border-round">
         <CCardBody>
           <ApiDataTable
             :items="items"
