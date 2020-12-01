@@ -18,9 +18,19 @@
   padding-right: 0;
 }
 
-@media (max-width: 768px) {
-  .card-body {
+@media (min-width:  768px) {
+  .c-header {
+    padding-left: 1rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .md-p-0 {
     padding: 0;
+  }
+  .c-subheader {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 

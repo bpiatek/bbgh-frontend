@@ -1,95 +1,95 @@
 <template>
-      <CCard class="card-border-round">
-        <CCardBody>
-          <ApiDataTable
-            :items="items"
-            :fields="fields"
-            :total-pages="totalPages"
-            :total-elements="totalElements"
-            :loading="loading"
-            :header="!$store.state.mobile"
-            use-query
-            @update="loadItems"
-          >
-            <slot slot="#header">
-              <h3>{{ $t('mentions.list_header') }}</h3>
-            </slot>
-            <template #commentDate="{item}">
-              <td class="text-nowrap text-xl-right">
-                {{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}
-              </td>
-            </template>
-            <template #article="{item}">
-              <td>
-                <router-link :to="{name: 'Article', params: {id: item.articleId}}">link</router-link>
-              </td>
-            </template>
-            <template #commentContent="{item}">
-              <td>
-                {{ item.commentContent.substr(0, item.startsAt) }}
+  <CCard class="card-border-round">
+    <CCardBody class="md-p-0">
+      <ApiDataTable
+        :items="items"
+        :fields="fields"
+        :total-pages="totalPages"
+        :total-elements="totalElements"
+        :loading="loading"
+        :header="!$store.state.mobile"
+        use-query
+        @update="loadItems"
+      >
+        <slot slot="#header">
+          <h3>{{ $t('mentions.list_header') }}</h3>
+        </slot>
+        <template #commentDate="{item}">
+          <td class="text-nowrap text-xl-right">
+            {{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}
+          </td>
+        </template>
+        <template #article="{item}">
+          <td>
+            <router-link :to="{name: 'Article', params: {id: item.articleId}}">link</router-link>
+          </td>
+        </template>
+        <template #commentContent="{item}">
+          <td>
+            {{ item.commentContent.substr(0, item.startsAt) }}
+            <MentionSentimentEditor
+              :mention-id="item.id"
+              :value="item.mentionSentiment"
+              @input="item.mentionSentiment = $event"
+              :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
+            ></MentionSentimentEditor>
+            {{ item.commentContent.substr(item.endsAt) }}
+          </td>
+        </template>
+        <template #playerFullName="{item}">
+          <td>
+            <MentionSentimentEditor
+              :mention-id="item.id"
+              :value="item.mentionSentiment"
+              @input="item.mentionSentiment = $event"
+              :player="item.playerFullName"
+            ></MentionSentimentEditor>
+          </td>
+        </template>
+        <template #mobileComment="{item}">
+          <td class="mentions-mobile-comment">
+            {{ item.commentContent.substr(0, item.startsAt) }}<span :class="'mention-subject mention-'+item.mentionSentiment">{{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}</span>{{ item.commentContent.substr(item.endsAt) }}
+            <br>
+            <div class="mentions-mobile-comment-footer">
+              <i>{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i> |
+              <strong>
+                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
+              </strong>
+            </div>
+          </td>
+        </template>
+        <template #mobile="{item}">
+          <td class="mentions-mobile-comment">
+            <div class="mentions-mobile-comment-header">
                 <MentionSentimentEditor
                   :mention-id="item.id"
                   :value="item.mentionSentiment"
-                  @input="item.mentionSentiment = $event"
-                  :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
-                ></MentionSentimentEditor>
-                {{ item.commentContent.substr(item.endsAt) }}
-              </td>
-            </template>
-            <template #playerFullName="{item}">
-              <td>
-                <MentionSentimentEditor
-                  :mention-id="item.id"
-                  :value="item.mentionSentiment"
-                  @input="item.mentionSentiment = $event"
                   :player="item.playerFullName"
+                  @input="item.mentionSentiment = $event"
                 ></MentionSentimentEditor>
-              </td>
-            </template>
-            <template #mobileComment="{item}">
-              <td class="mentions-mobile-comment">
-                {{ item.commentContent.substr(0, item.startsAt) }}<span :class="'mention-subject mention-'+item.mentionSentiment">{{ item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt) }}</span>{{ item.commentContent.substr(item.endsAt) }}
-                <br>
-                <div class="mentions-mobile-comment-footer">
-                  <i>{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i> |
-                  <strong>
-                    <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
-                  </strong>
-                </div>
-              </td>
-            </template>
-            <template #mobile="{item}">
-              <td class="mentions-mobile-comment">
-                <div class="mentions-mobile-comment-header">
-                    <MentionSentimentEditor
-                      :mention-id="item.id"
-                      :value="item.mentionSentiment"
-                      :player="item.playerFullName"
-                      @input="item.mentionSentiment = $event"
-                    ></MentionSentimentEditor>
-                </div>
-                <hr class="mt-1 mb-1">
-                <div class="mentions-mobile-comment-content">
-                  {{ item.commentContent.substr(0, item.startsAt) }}
-                  <MentionSentimentEditor
-                    :mention-id="item.id"
-                    :value="item.mentionSentiment"
-                    @input="item.mentionSentiment = $event"
-                    :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
-                  ></MentionSentimentEditor>
-                  {{ item.commentContent.substr(item.endsAt) }}
-                </div>
-                <div class="text-nowrap pt-1 mt-1 b-t-1 text-right">
-                  <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
-                  <span class="text-nowrap pl-2">
-                    <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
-                  </span>
-                </div>
-              </td>
-            </template>
-          </ApiDataTable>
-        </CCardBody>
-      </CCard>
+            </div>
+            <hr class="mt-1 mb-1">
+            <div class="mentions-mobile-comment-content">
+              {{ item.commentContent.substr(0, item.startsAt) }}
+              <MentionSentimentEditor
+                :mention-id="item.id"
+                :value="item.mentionSentiment"
+                @input="item.mentionSentiment = $event"
+                :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
+              ></MentionSentimentEditor>
+              {{ item.commentContent.substr(item.endsAt) }}
+            </div>
+            <div class="text-nowrap pt-1 mt-1 b-t-1 text-right">
+              <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
+              <span class="text-nowrap pl-2">
+                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{ $t('mentions.list.article') }}</router-link>
+              </span>
+            </div>
+          </td>
+        </template>
+      </ApiDataTable>
+    </CCardBody>
+  </CCard>
 </template>
 
 <script lang="ts">
