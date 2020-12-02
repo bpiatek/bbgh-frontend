@@ -1,17 +1,7 @@
 <template>
   <CHeader fixed with-subheader light>
-<!--    <CToggler-->
-<!--      in-header-->
-<!--      class="d-lg-none"-->
-<!--      @click="$store.commit('toggleSidebarMobile')"-->
-<!--    />-->
-<!--    <CToggler-->
-<!--      in-header-->
-<!--      class="d-md-down-none"-->
-<!--      @click="$store.commit('toggleSidebarDesktop')"-->
-<!--    />-->
     <CHeaderBrand class="mx-auto" to="/">
-      Piłkomentarz
+      Piłk<img src="/favicon.svg" alt="o" title="o">mentarz
     </CHeaderBrand>
     <CSubheader>
       <CHeaderNav class="m-auto">

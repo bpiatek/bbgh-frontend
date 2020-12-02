@@ -27,12 +27,13 @@
   font-size: 1.25rem;
   letter-spacing: 0.25rem;
   font-weight: bold;
+  > img {
+    max-height: 16px;
+    padding-right: 2px;
+  }
 }
 
 @media (min-width:  768px) {
-  .c-header {
-    padding-left: 1rem;
-  }
   .main-card {
     border-radius: 1rem;
   }
