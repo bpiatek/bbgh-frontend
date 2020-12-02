@@ -6,6 +6,7 @@
   "Sentiment": "Sentiment",
   "Article Details": "Article Details",
   "datatable": {
+    "page": "Page",
     "total_items": "Total items",
     "actions": "Actions",
     "action": {
@@ -14,6 +15,11 @@
   },
   "mentions": {
     "list_header": "Mentions",
+    "filters": {
+      "sentiment": {
+        "placeholder": "Filter sentiment"
+      }
+    },
     "list": {
       "id": "Id",
       "article": "Article",

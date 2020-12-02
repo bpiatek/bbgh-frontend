@@ -13,20 +13,51 @@
   width: 100%;
 }
 
+.c-header-nav-item {
+  letter-spacing: 0.25px;
+  font-weight: bold;
+}
+
 .container-fluid {
   padding-left: 0;
   padding-right: 0;
+}
+
+.c-header-brand {
+  font-size: 1.25rem;
+  letter-spacing: 0.25rem;
+  font-weight: bold;
 }
 
 @media (min-width:  768px) {
   .c-header {
     padding-left: 1rem;
   }
+  .main-card {
+    border-radius: 1rem;
+  }
 }
 
 @media (max-width: 767px) {
-  .md-p-0 {
+  .c-header-brand {
+    min-height: 40px;
+  }
+  .c-subheader {
+    min-height: 36px;
+  }
+  .c-header-nav {
+    min-height: 36px;
+  }
+  .c-main {
     padding: 0;
+  }
+  .card-border-round {
+   border-radius: 0;
+  }
+  .main-card > .card-body {
+    padding-top: 0.75rem;
+    padding-right: 0;
+    padding-left: 0;
   }
   .c-subheader {
     padding-left: 0;
@@ -40,10 +71,6 @@
       padding-right: 0;
     }
   }
-}
-
-.card-border-round {
-  border-radius: 1rem;
 }
 
 .btn-mention-sentiment {
@@ -89,6 +116,16 @@
 
   .datatable-header {
     text-align: center;
+    letter-spacing: 0.1rem;
+  }
+
+  .datatable-mobile {
+    position: relative;
+    .datatable-mobile-id {
+      position: absolute;
+      top: 0.1rem;
+      right: 0.25rem;
+    }
   }
 }
 
@@ -119,10 +156,6 @@
       }
     }
   }
-  .separator {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
 }
 
 .mentions-sentiment-filter {
@@ -141,5 +174,12 @@
   }
   .multiselect__option--highlight {
     background-color: transparent;
+  }
+}
+
+.articles {
+  .a-soft {
+    font-weight: bold;
+    color: #3c4b64;
   }
 }

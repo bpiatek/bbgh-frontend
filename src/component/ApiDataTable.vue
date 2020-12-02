@@ -1,14 +1,19 @@
 <template>
   <div class="datatable-container">
-    <div class="datatable-header pt-3 b-b-2">
+    <div class="datatable-header b-b-2" v-if="!!$slots['#header']">
       <slot name="#header" class="datatable-header">
       </slot>
     </div>
-    <div class="datatable-filters p-2 b-b-2">
+    <div
+      v-if="!!$slots['#filters']"
+      class="datatable-filters p-2 b-b-2">
       <slot name="#filters" class="datatable-filters">
       </slot>
     </div>
-    <div v-if="totalElements" class="text-right pt-1 pb-1 pr-2"><small>{{ $t('datatable.total_items') }}: {{ totalElements }}</small></div>
+    <div v-if="totalElements" class="text-right pt-1 pb-1 pr-2">
+      <small>{{ $t('datatable.page') }}: {{ page }}/{{ totalPages }}</small>,
+      <small>{{ $t('datatable.total_items') }}: {{ totalElements }}</small>
+    </div>
     <CDataTable
       :fields="fields"
       :items="items"

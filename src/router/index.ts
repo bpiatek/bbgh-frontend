@@ -32,8 +32,11 @@ function configRoutes () {
           children: [
             {
               path: '',
-              name: i18n.tc('Articles'),
-              component: Articles
+              name: 'Articles',
+              component: Articles,
+              meta: {
+                label: i18n.tc('Articles')
+              }
             },
             {
               path: ':id',

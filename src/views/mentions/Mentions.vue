@@ -1,6 +1,6 @@
 <template>
-  <CCard class="card-border-round">
-    <CCardBody class="md-p-0">
+  <CCard class="main-card">
+    <CCardBody>
       <ApiDataTable
         :items="items"
         :fields="fields"
@@ -23,7 +23,7 @@
                 :multiple="true"
                 :clear-on-select="false"
                 :hide-selected="true"
-                :placeholder="$t('Sentiment')"
+                :placeholder="$t('mentions.filters.sentiment.placeholder')"
                 label="label"
                 track-by="value"
                 :show-labels="false"
@@ -42,9 +42,6 @@
               </multiselect>
             </CCol>
           </CRow>
-        </slot>
-        <slot slot="#header">
-          <h3>{{ $t('mentions.list_header') }}</h3>
         </slot>
         <template #commentDate="{item}">
           <td class="text-nowrap text-xl-right">
@@ -97,7 +94,8 @@
           </td>
         </template>
         <template #mobile="{item}">
-          <td class="mentions-mobile-comment">
+          <td class="datatable-mobile mentions-mobile-comment">
+<!--            <small class="datatable-mobile-id">{{ item.id }}</small>-->
             <div class="mentions-mobile-comment-header pb-2">
               <MentionSentimentEditor
                 :mention-id="item.id"
@@ -116,7 +114,7 @@
               ></MentionSentimentEditor>
               {{ item.commentContent.substr(item.endsAt) }}
             </div>
-            <div class="text-nowrap pt-1 mt-1 text-right">
+            <div class="text-nowrap pt-2 text-right">
               <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
               <span class="text-nowrap pl-2">
                 <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{

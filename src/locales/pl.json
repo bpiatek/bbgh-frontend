@@ -6,7 +6,8 @@
   "Sentiment": "Sentyment",
   "Article Details": "Szczegóły Artykułu",
   "datatable": {
-    "total_items": "W sumie",
+    "page": "Strona",
+    "total_items": "Ilość wyników",
     "actions": "Akcje",
     "action": {
       "show_details": "Szczególy"
@@ -14,6 +15,11 @@
   },
   "mentions": {
     "list_header": "Wzmianki",
+    "filters": {
+      "sentiment": {
+        "placeholder": "Filtruj sentyment"
+      }
+    },
     "list": {
       "id": "Id",
       "article": "Artykuł",

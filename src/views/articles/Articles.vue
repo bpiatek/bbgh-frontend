@@ -1,56 +1,57 @@
 <template>
-  <CRow>
-    <CCol col="12" xl="12">
-      <CCard class="card-border-round">
-        <CCardBody>
-          <ApiDataTable
-            :items="items"
-            :fields="fields"
-            :total-pages="totalPages"
-            :total-elements="totalElements"
-            :loading="loading"
-            use-query
-            :default-sort="{column: 'creationDate', asc: false }"
-            @update="loadArticles"
-          >
-            <slot slot="#header">
-              <h3>{{ $t('articles.list_header') }}</h3>
-            </slot>
-            <template #url="{item}">
-              <td>
-                <a :href="item.url">link</a>
-              </td>
-            </template>
-            <template #title="{item}">
-              <td>
-                <p
-                  style="cursor: pointer"
-                  @click="$router.push({name: 'Article', params: {id: item.id}})"
-                >
-                  {{ item.title }}
-                </p>
-              </td>
-            </template>
-            <template #creationDate="{item}">
-              <td class="text-nowrap text-xl-right">
-                {{ dayjs(item.creationDate).format('YYYY-MM-DD HH:mm:ss') }}
-              </td>
-            </template>
-            <template #actions="{item}">
-              <td>
-                <CButton
-                  @click.prevent="$router.push({name: 'Article', params: { id: item.id } })"
-                  color="info"
-                  variant="outline"
-                  size="sm"
-                >{{ $t('datatable.action.show_details') }}</CButton>
-              </td>
-            </template>
-          </ApiDataTable>
-        </CCardBody>
-      </CCard>
-    </CCol>
-  </CRow>
+  <CCard class="main-card">
+    <CCardBody class="pt-0">
+      <ApiDataTable
+        class="articles"
+        :items="items"
+        :fields="fields"
+        :total-pages="totalPages"
+        :total-elements="totalElements"
+        :loading="loading"
+        use-query
+        :header="!$store.state.mobile"
+        :default-sort="{column: 'creationDate', asc: false }"
+        @update="loadArticles"
+      >
+        <template #url="{item}">
+          <td>
+            <a :href="item.url">link</a>
+          </td>
+        </template>
+        <template #title="{item}">
+          <td>
+            <router-link
+              class="a-soft"
+              :to="{name: 'Article', params: {id: item.id}}"
+            >
+              {{  item.title  }}
+            </router-link>
+          </td>
+        </template>
+        <template #creationDate="{item}">
+          <td class="text-nowrap text-xl-right">
+            {{ dayjs(item.creationDate).format('YYYY-MM-DD HH:mm:ss') }}
+          </td>
+        </template>
+        <template #mobile="{item}">
+          <td>
+            <router-link
+              class="a-soft"
+              :to="{name: 'Article', params: {id: item.id}}"
+            >
+              {{  item.title  }}
+            </router-link>
+            <div class="text-nowrap pt-2 text-right">
+              <i class="text-nowrap">{{  dayjs(item.creationDate).format('YYYY-MM-DD HH:mm:ss')  }}</i>
+              <span class="text-nowrap pl-2">
+                <a :href="item.url">90minut.pl</a>
+              </span>
+            </div>
+          </td>
+        </template>
+      </ApiDataTable>
+    </CCardBody>
+  </CCard>
 </template>
 
 <script lang="ts">
@@ -65,18 +66,13 @@ export default {
   data () {
     return {
       items: [] as Article[],
-      fields: [
+      fields: this.$store.state.mobile ? [
+        { key: 'mobile' }
+      ] : [
         { key: 'id', _style: 'width:75px', label: this.$t('articles.list.id') },
         { key: 'url', _style: 'width:75px', sorter: false, label: this.$t('articles.list.url') },
         { key: 'title', _style: 'min-width:200px;', label: this.$t('articles.list.title') },
-        { key: 'creationDate', _style: 'width: 1%; white-space: nowrap;', label: this.$t('articles.list.creationDate') },
-        {
-          key: 'actions',
-          label: this.$t('datatable.actions'),
-          _style: 'width:1%',
-          sorter: false,
-          filter: false
-        }
+        { key: 'creationDate', _style: 'width: 1%; white-space: nowrap;', label: this.$t('articles.list.creationDate') }
       ],
       totalPages: 1,
       totalElements: 0,
