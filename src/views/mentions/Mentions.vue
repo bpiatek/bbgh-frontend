@@ -98,7 +98,7 @@
         </template>
         <template #mobile="{item}">
           <td class="mentions-mobile-comment">
-            <div class="mentions-mobile-comment-header">
+            <div class="mentions-mobile-comment-header pb-2">
               <MentionSentimentEditor
                 :mention-id="item.id"
                 :value="item.mentionSentiment"
@@ -106,7 +106,6 @@
                 @input="item.mentionSentiment = $event"
               ></MentionSentimentEditor>
             </div>
-            <hr class="mt-1 mb-1">
             <div class="mentions-mobile-comment-content">
               {{ item.commentContent.substr(0, item.startsAt) }}
               <MentionSentimentEditor
@@ -117,7 +116,7 @@
               ></MentionSentimentEditor>
               {{ item.commentContent.substr(item.endsAt) }}
             </div>
-            <div class="text-nowrap pt-1 mt-1 b-t-1 text-right">
+            <div class="text-nowrap pt-1 mt-1 text-right">
               <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
               <span class="text-nowrap pl-2">
                 <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{

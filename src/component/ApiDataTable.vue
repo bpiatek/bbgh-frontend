@@ -46,10 +46,6 @@ export default {
       sort: {
         column: null as null | string,
         asc: false as boolean
-      },
-      tableFilterValue: null,
-      tableFilterSettings: {
-        placeholder: 'Search...'
       }
     }
   },
@@ -67,6 +63,12 @@ export default {
       default: 20,
       type: Number
     },
+    filters: {
+      type: Object,
+      default: () => {
+        return {}
+      }
+    },
     useQuery: {
       default: false,
       type: Boolean
@@ -74,9 +76,6 @@ export default {
     loading: {
       default: false,
       type: Boolean
-    },
-    tableFilter: {
-      default: false
     },
     header: {
       default: true
@@ -103,8 +102,7 @@ export default {
     loadData () {
       const pagination = new Pagination(this.page - 1, this.size)
       const sorts = this.sort.column ? [new Sort(this.sort.column, this.sort.asc ? SortDirection.asc : SortDirection.desc)] : []
-      const tableFilter = this.tableFilterValue
-      this.$emit('update', { pagination, sorts, tableFilter })
+      this.$emit('update', { pagination, sorts })
     },
     updateSort ({ column, asc }: { column: string; asc: boolean }) {
       this.sort = {
@@ -119,13 +117,6 @@ export default {
       this.loadData()
       this.updateRouteQuery()
     },
-    tableFilterChange (val: string | unknown) {
-      if (typeof val === 'string') {
-        this.tableFilterValue = val
-      }
-      this.updateRouteQuery()
-      this.loadData()
-    },
     loadRouteQuery () {
       if (!this.useQuery) {
         return
@@ -138,7 +129,6 @@ export default {
           asc: sort.direction === SortDirection.asc
         }
       }
-      this.tableFilterValue = this.$route.query.tableFilter
     },
     updateRouteQuery () {
       if (!this.useQuery) {
@@ -147,8 +137,7 @@ export default {
       this.$router.push({
         query: {
           page: this.page.toString(),
-          sort: this.sort.column ? (this.sort.column + ',' + (this.sort.asc ? 'asc' : 'desc')) : undefined,
-          tableFilter: this.tableFilterValue
+          sort: this.sort.column ? (this.sort.column + ',' + (this.sort.asc ? 'asc' : 'desc')) : undefined
         }
         // eslint-disable-next-line @typescript-eslint/no-empty-function
       }).catch(() => {})

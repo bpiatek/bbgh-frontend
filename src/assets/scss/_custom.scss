@@ -100,7 +100,9 @@
 }
 
 .mentions-mobile-comment {
-  border-bottom: 2px solid black;
+  .mentions-mobile-comment-header {
+    padding-top: 0.5rem;
+  }
   .mentions-mobile-comment-content {
     .mention-sentiment-status-dropdown {
       button {
