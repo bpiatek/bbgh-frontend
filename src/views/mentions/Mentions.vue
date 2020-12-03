@@ -170,7 +170,7 @@ export default {
       this.loading = true
       const truePagination = pagination !== undefined ? pagination : this.pagination
       this.pagination = truePagination
-      const sorts = [new Sort('id', SortDirection.desc)]
+      const sorts = [new Sort('comment.dateAdded', SortDirection.desc)]
       const sentiments = this.filterSentiment.map((s: {value: string}) => s.value)
       api.mentions.search(truePagination, sorts, sentiments).then((r) => {
         this.items = this.items.slice(0, 0).concat(r.data.content)

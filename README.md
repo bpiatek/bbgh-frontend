@@ -1,4 +1,4 @@
-# bbgh-fronten
+# bbgh-frontend
 
 ## Project setup
 ```
