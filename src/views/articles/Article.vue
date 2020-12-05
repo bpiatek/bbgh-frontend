@@ -67,12 +67,14 @@ export default {
       size: 50
     }
   },
-  created () {
+  activated () {
+    this.article = null
     this.articleId = this.$route.params.id
     api.articles.getById(this.articleId).then((r) => {
       this.article = r.data
     })
     this.loadComments()
+    window.scrollTo(0, 0)
   },
   methods: {
     loadComments () {
