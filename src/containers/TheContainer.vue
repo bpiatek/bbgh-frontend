@@ -6,7 +6,9 @@
       <div class="c-body">
         <main class="c-main">
           <CContainer fluid>
+            <keep-alive>
               <router-view :key="$route.path"></router-view>
+            </keep-alive>
           </CContainer>
         </main>
       </div>

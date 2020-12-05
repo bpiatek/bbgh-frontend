@@ -169,29 +169,29 @@ export default {
   },
   computed: {
     filterSentimentOptions () {
-      const result: any[] = []
+      const result: {}[] = []
       for (const [key, value] of Object.entries(this.sentiments)) {
         result.push({ value: key, label: value })
       }
       return result
     }
   },
-  mounted () {
+  created () {
+    document.addEventListener('scroll', this.onScrollChange)
+  },
+  activated () {
+    if (this.$store.state.mentionsList.page === 0) {
+      this.loadParamsFromQuery()
+      this.loadItems()
+    } else {
+      this.saveStateToQuery()
+    }
     this.$nextTick(function () {
       window.scrollTo(
         this.$store.state.mentionsList.scrollPosition.x,
         this.$store.state.mentionsList.scrollPosition.y
       )
     })
-  },
-  created () {
-    document.addEventListener('scroll', this.onScrollChange)
-    if (this.$store.state.mentionsList.page > 0) {
-
-    } else {
-      this.loadParamsFromQuery()
-      this.loadItems()
-    }
   },
   destroyed () {
     document.removeEventListener('scroll', this.onScrollChange)

@@ -80,22 +80,22 @@ export default {
       loading: false
     }
   },
-  mounted () {
+  created () {
+    document.addEventListener('scroll', this.onScrollChange)
+  },
+  activated () {
+    if (this.$store.state.articlesList.page === 0) {
+      this.loadParamsFromQuery()
+      this.loadItems()
+    } else {
+      this.saveStateToQuery()
+    }
     this.$nextTick(function () {
       window.scrollTo(
         this.$store.state.articlesList.scrollPosition.x,
         this.$store.state.articlesList.scrollPosition.y
       )
     })
-  },
-  created () {
-    document.addEventListener('scroll', this.onScrollChange)
-    if (this.$store.state.articlesList.page > 0) {
-
-    } else {
-      this.loadParamsFromQuery()
-      this.loadItems()
-    }
   },
   destroyed () {
     document.removeEventListener('scroll', this.onScrollChange)
