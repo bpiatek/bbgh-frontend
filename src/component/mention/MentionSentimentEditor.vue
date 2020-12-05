@@ -1,14 +1,12 @@
 <template>
     <CDropdown
       class="mention-sentiment-status-dropdown"
-      :color="valueColors[value]"
       :toggler-text="player"
-      :add-toggler-classes="'btn-mention-sentiment'"
+      :add-toggler-classes="`btn-mention-sentiment sentiment-${value}`"
     >
       <CDropdownItem
         v-for="(v, index) in enumValues"
         :key="index"
-        :class="'bg-'+valueColors[v]"
         @click="change(v)"
       >
         {{ $t("sentiment."+v) }}
@@ -25,13 +23,7 @@ export default {
   name: 'MentionSentimentEditor',
   data () {
     return {
-      enumValues: MentionSentimentEnum,
-      valueColors: {
-        POSITIVE: 'success',
-        NEUTRAL: 'info',
-        NEGATIVE: 'danger',
-        NOT_CHECKED: 'secondary'
-      }
+      enumValues: MentionSentimentEnum
     }
   },
   props: {

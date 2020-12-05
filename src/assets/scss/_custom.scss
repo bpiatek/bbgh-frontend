@@ -1,4 +1,11 @@
 // Here you can add other styles
+
+$sentiment-NOT_CHECKED: #ced2d8;
+$sentiment-POSITIVE: #2eb85c;
+$sentiment-NEUTRAL: #39f;
+$sentiment-NEGATIVE: #e65a5a;
+
+
 .c-body {
   overflow: auto;
 }
@@ -86,23 +93,23 @@
 }
 
 .sentiment-POSITIVE {
-  background-color: #2eb85c;
-  border-color: #2eb85c;
+  background-color: $sentiment-POSITIVE;
+  border-color: $sentiment-POSITIVE;
 }
 
 .sentiment-NEUTRAL {
-  background-color: #39f;
-  border-color: #39f;
+  background-color: $sentiment-NEUTRAL;
+  border-color: $sentiment-NEUTRAL;
 }
 
 .sentiment-NEGATIVE {
-  background-color: #e55353;
-  border-color: #e55353;
+  background-color: $sentiment-NEGATIVE;
+  border-color: $sentiment-NEGATIVE;
 }
 
 .sentiment-NOT_CHECKED {
-  background-color: #ced2d8;
-  border-color: #ced2d8;
+  background-color: $sentiment-NOT_CHECKED;
+  border-color: $sentiment-NOT_CHECKED;
 }
 
 
