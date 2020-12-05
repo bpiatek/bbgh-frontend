@@ -2,18 +2,18 @@
   <CCard class="main-card">
     <CCardBody>
       <ApiDataTable
-        :items="items"
+        :items="$store.state.mentionsList.items"
         :fields="fields"
-        :total-pages="totalPages"
-        :total-elements="totalElements"
+        :total-pages="$store.state.mentionsList.totalPages"
+        :total-elements="$store.state.mentionsList.totalElements"
         :loading="loading"
         :header="!$store.state.mobile"
-        use-query
-        @update="loadItems"
+        :page="$store.state.mentionsList.page"
+        @pageChange="onPageChange"
       >
         <slot slot="#filters">
           <CRow>
-            <CCol lg="6" md="12"></CCol>
+            <CCol lg="3" md="12"></CCol>
             <CCol lg="6" md="12">
               <multiselect
                 ref="sentimentFilter"
@@ -41,6 +41,8 @@
                 </template>
               </multiselect>
             </CCol>
+            <CCol lg="3" md="12"></CCol>
+
           </CRow>
         </slot>
         <template #commentDate="{item}">
@@ -95,7 +97,6 @@
         </template>
         <template #mobile="{item}">
           <td class="datatable-mobile mentions-mobile-comment">
-<!--            <small class="datatable-mobile-id">{{ item.id }}</small>-->
             <div class="mentions-mobile-comment-header pb-2">
               <MentionSentimentEditor
                 :mention-id="item.id"
@@ -136,6 +137,7 @@ import api from '@/api/api'
 import { Mention } from '@/api/model/Mention'
 import MentionSentimentEditor from '@/component/mention/MentionSentimentEditor.vue'
 import Multiselect from 'vue-multiselect'
+import { MentionsList } from '@/store'
 
 export default {
   name: 'Mentions',
@@ -152,32 +154,90 @@ export default {
         { key: 'playerFullName', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.player') },
         { key: 'commentDate', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.commentDate') }
       ],
+      page: 1,
       totalPages: 1,
       totalElements: 0,
       loading: false,
-      filterSentiment: [],
-      filterSentimentOptions: [
-        { value: 'NOT_CHECKED', label: this.$t('sentiment.NOT_CHECKED') },
-        { value: 'POSITIVE', label: this.$t('sentiment.POSITIVE') },
-        { value: 'NEUTRAL', label: this.$t('sentiment.NEUTRAL') },
-        { value: 'NEGATIVE', label: this.$t('sentiment.NEGATIVE') }
-      ],
-      pagination: null
+      filterSentiment: this.$store.state.mentionsList.filterSentiment,
+      sentiments: {
+        NOT_CHECKED: this.$t('sentiment.NOT_CHECKED'),
+        POSITIVE: this.$t('sentiment.POSITIVE'),
+        NEUTRAL: this.$t('sentiment.NEUTRAL'),
+        NEGATIVE: this.$t('sentiment.NEGATIVE')
+      }
     }
   },
+  computed: {
+    filterSentimentOptions () {
+      const result: any[] = []
+      for (const [key, value] of Object.entries(this.sentiments)) {
+        result.push({ value: key, label: value })
+      }
+      return result
+    }
+  },
+  mounted () {
+    this.$nextTick(function () {
+      window.scrollTo(
+        this.$store.state.mentionsList.scrollPosition.x,
+        this.$store.state.mentionsList.scrollPosition.y
+      )
+    })
+  },
+  created () {
+    document.addEventListener('scroll', this.onScrollChange)
+    if (this.$store.state.mentionsList.page > 0) {
+
+    } else {
+      this.loadParamsFromQuery()
+      this.loadItems()
+    }
+  },
+  destroyed () {
+    document.removeEventListener('scroll', this.onScrollChange)
+  },
   methods: {
-    loadItems ({ pagination }: { pagination: Pagination|undefined }) {
+    loadItems () {
       this.loading = true
-      const truePagination = pagination !== undefined ? pagination : this.pagination
-      this.pagination = truePagination
+      const pagination = new Pagination(this.page - 1, this.size)
       const sorts = [new Sort('comment.dateAdded', SortDirection.desc)]
       const sentiments = this.filterSentiment.map((s: {value: string}) => s.value)
-      api.mentions.search(truePagination, sorts, sentiments).then((r) => {
-        this.items = this.items.slice(0, 0).concat(r.data.content)
-        this.totalPages = r.data.totalPages
-        this.totalElements = r.data.totalElements
+      api.mentions.search(pagination, sorts, sentiments).then((r) => {
+        const listData = new MentionsList()
+        listData.items = r.data.content
+        listData.totalPages = r.data.totalPages
+        listData.totalElements = r.data.totalElements
+        listData.page = this.page
+        listData.filterSentiment = this.filterSentiment
+        this.$store.commit('setMentionsList', listData)
         this.loading = false
+        this.saveStateToQuery()
       })
+    },
+    onScrollChange () {
+      this.$store.state.mentionsList.scrollPosition.y = window.scrollY
+    },
+    onPageChange (newPage: number) {
+      this.page = newPage
+      window.scrollTo(0, 0)
+      this.loadItems()
+    },
+    saveStateToQuery () {
+      this.$router.push({
+        query: {
+          page: this.page.toString(),
+          sentiments: this.filterSentiment.map((s: {value: string}) => s.value)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+      }).catch(() => {})
+    },
+    loadParamsFromQuery () {
+      this.page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
+      let sentiments = this.$route.query.sentiments
+      if (sentiments !== undefined) {
+        sentiments = sentiments.split(',')
+        sentiments.forEach((value: string) => this.filterSentiment.push({ value: value, label: this.sentiments[value] }))
+      }
     }
   }
 }

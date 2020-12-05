@@ -1,6 +1,5 @@
 <template>
   <div class="c-app">
-    <TheSidebar/>
     <TheAlerts/>
     <CWrapper>
       <TheHeader/>
@@ -19,7 +18,6 @@
 </template>
 
 <script>
-import TheSidebar from './TheSidebar'
 import TheHeader from './TheHeader'
 import TheFooter from './TheFooter'
 import TheAlerts from '@/containers/TheAlerts'
@@ -28,7 +26,6 @@ export default {
   name: 'TheContainer',
   components: {
     TheAlerts,
-    TheSidebar,
     TheHeader,
     TheFooter
   }

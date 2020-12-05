@@ -28,7 +28,8 @@
           :total-pages="totalPages"
           :size="50"
           :header="false"
-          @update="loadComments"
+          :page="page"
+          @pageChange="onPageChange"
         >
           <template #info="{item}">
             <td>
@@ -46,7 +47,7 @@
 
 <script lang="ts">
 import ApiDataTable from '@/component/ApiDataTable.vue'
-import { Pagination, Sort } from '@/api/model/common'
+import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
 import { Article } from '@/api/model/Article'
 
@@ -61,7 +62,9 @@ export default {
       fields: [
         { key: 'info' }
       ],
-      totalPages: 1
+      totalPages: 1,
+      page: 1,
+      size: 50
     }
   },
   created () {
@@ -69,9 +72,12 @@ export default {
     api.articles.getById(this.articleId).then((r) => {
       this.article = r.data
     })
+    this.loadComments()
   },
   methods: {
-    loadComments ({ pagination, sorts }: {pagination: Pagination; sorts: Sort[]}) {
+    loadComments () {
+      const pagination = new Pagination(this.page - 1, this.size)
+      const sorts = [new Sort('dateAdded', SortDirection.desc)]
       api.articles.articleComments(this.articleId, pagination, sorts).then((r) => {
         this.items = this.items.slice(0, 0).concat(r.data.content)
         this.totalPages = r.data.totalPages
@@ -79,6 +85,10 @@ export default {
     },
     goBack () {
       this.$router.back()
+    },
+    onPageChange (newPage: number) {
+      this.page = newPage
+      this.loadComments()
     }
   }
 }

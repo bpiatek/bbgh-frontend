@@ -69,6 +69,17 @@ function configRoutes () {
 export default new Router({
   mode: 'hash', // https://router.vuejs.org/api/#mode
   linkActiveClass: 'active',
-  // scrollBehavior: () => ({ y: 0 }),
+  // scrollBehavior: (to, from, savedPosition) => {
+  //   return new Promise((resolve, reject) => {
+  //     setTimeout(() => {
+  //       console.log(savedPosition)
+  //       if (savedPosition) {
+  //         resolve(savedPosition)
+  //       } else {
+  //         resolve({ x: 0, y: 0 })
+  //       }
+  //     }, 500)
+  //   })
+  // },
   routes: configRoutes()
 })

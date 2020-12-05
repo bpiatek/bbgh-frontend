@@ -1,36 +1,39 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { Mention } from '@/api/model/Mention'
+import { Article } from '@/api/model/Article'
 Vue.use(Vuex)
 
+export class ListData<T> {
+  items: T[] = []
+  page = 0
+  totalPages = 0
+  totalElements = 0
+  scrollPosition = {
+    x: 0,
+    y: 0
+  }
+}
+
+export class MentionsList extends ListData<Mention> {
+  filterSentiment = []
+}
+
 type State = {
-  sidebarShow: string|boolean;
-  sidebarMinimize: boolean;
   alerts: Alert[];
   mobile: boolean;
+  mentionsList: MentionsList;
+  articlesList: ListData<Article>;
 }
 
 const state = {
-  sidebarShow: false,
-  sidebarMinimize: false,
   alerts: [] as Alert[],
-  mobile: true
+  mobile: true,
+  mentionsList: new MentionsList(),
+  articlesList: new ListData<Article>()
 }
 
 const mutations = {
-  toggleSidebarDesktop (state: State) {
-    const sidebarOpened = [true, 'responsive'].includes(state.sidebarShow)
-    state.sidebarShow = sidebarOpened ? false : 'responsive'
-  },
-  toggleSidebarMobile (state: State) {
-    const sidebarClosed = [false, 'responsive'].includes(state.sidebarShow)
-    state.sidebarShow = sidebarClosed ? true : 'responsive'
-  },
-  setSidebarMinimize (state: State, value: boolean) {
-    state.sidebarMinimize = value
-  },
-  setSidebarShow  (state: State, value: boolean|string) {
-    state.sidebarShow = value
-  },
   addAlert (state: State, alert: Alert) {
     state.alerts.push(alert)
     setTimeout(function () {
@@ -39,6 +42,12 @@ const mutations = {
   },
   setMobile (state: State, value: boolean) {
     state.mobile = value
+  },
+  setMentionsList (state: State, list: MentionsList) {
+    state.mentionsList = list
+  },
+  setArticlesList (state: State, list: ListData<Article>) {
+    state.articlesList = list
   }
 }
 
