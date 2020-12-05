@@ -2,11 +2,6 @@
   <CRow>
     <CCol col="12" v-if="article">
       <CCard>
-        <CCardHeader>
-          <div>
-            <CButton color="primary" @click="goBack">{{ $t('actions.go_back') }}</CButton>
-          </div>
-        </CCardHeader>
         <CCardBody>
           <h3>
             {{ article.title }}
@@ -18,6 +13,12 @@
           <hr/>
           {{ article.content }}
         </CCardBody>
+        <CCardFooter>
+          <CButton color="primary" @click="goBack" variant="outline">
+            <CIcon name="cilArrowThickFromRight" class="m-0"/>
+            {{ $t('actions.go_back') }}
+          </CButton>
+        </CCardFooter>
       </CCard>
     </CCol>
     <CCol col="12" v-if="article">

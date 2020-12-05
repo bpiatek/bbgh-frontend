@@ -27,7 +27,7 @@
                 label="label"
                 track-by="value"
                 :show-labels="false"
-                @input="loadItems"
+                @input="onFilterChange"
                 :options="filterSentimentOptions">
                 <template slot="tag" slot-scope="props">
                   <button
@@ -197,6 +197,11 @@ export default {
     document.removeEventListener('scroll', this.onScrollChange)
   },
   methods: {
+    onFilterChange () {
+      console.log('filter change')
+      this.page = 1
+      this.loadItems()
+    },
     loadItems () {
       this.loading = true
       const pagination = new Pagination(this.page - 1, this.size)

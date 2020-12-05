@@ -6,7 +6,8 @@ import {
   cilLockLocked,
   cilInfo,
   cilX,
-  cilSpeak
+  cilSpeak,
+  cilArrowThickFromRight
 } from '@coreui/icons/js/free'
 
 export default {
@@ -17,5 +18,6 @@ export default {
   cilLockLocked,
   cilInfo,
   cilX,
-  cilSpeak
+  cilSpeak,
+  cilArrowThickFromRight
 }
