@@ -80,9 +80,6 @@ export default {
       loading: false
     }
   },
-  created () {
-    document.addEventListener('scroll', this.onScrollChange)
-  },
   activated () {
     if (this.$store.state.articlesList.page === 0) {
       this.loadParamsFromQuery()
@@ -90,15 +87,7 @@ export default {
     } else {
       this.saveStateToQuery()
     }
-    this.$nextTick(function () {
-      window.scrollTo(
-        this.$store.state.articlesList.scrollPosition.x,
-        this.$store.state.articlesList.scrollPosition.y
-      )
-    })
-  },
-  destroyed () {
-    document.removeEventListener('scroll', this.onScrollChange)
+    window.scrollTo(0, 0)
   },
   methods: {
     loadItems () {
@@ -115,9 +104,6 @@ export default {
         this.loading = false
         this.saveStateToQuery()
       })
-    },
-    onScrollChange () {
-      this.$store.state.articlesList.scrollPosition.y = window.scrollY
     },
     onPageChange (newPage: number) {
       this.page = newPage

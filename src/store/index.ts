@@ -9,10 +9,6 @@ export class ListData<T> {
   page = 0
   totalPages = 0
   totalElements = 0
-  scrollPosition = {
-    x: 0,
-    y: 0
-  }
 }
 
 export class MentionsList extends ListData<Mention> {

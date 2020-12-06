@@ -7,7 +7,7 @@
         <main class="c-main">
           <CContainer fluid>
             <keep-alive>
-              <router-view :key="$route.name"></router-view>
+              <router-view :key="$route.path"></router-view>
             </keep-alive>
           </CContainer>
         </main>

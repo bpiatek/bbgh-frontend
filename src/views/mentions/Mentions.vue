@@ -108,6 +108,7 @@
             <div class="mentions-mobile-comment-content">
               {{ item.commentContent.substr(0, item.startsAt) }}
               <MentionSentimentEditor
+                class="mention-sentiment-in-text"
                 :mention-id="item.id"
                 :value="item.mentionSentiment"
                 @input="item.mentionSentiment = $event"
@@ -176,9 +177,6 @@ export default {
       return result
     }
   },
-  created () {
-    document.addEventListener('scroll', this.onScrollChange)
-  },
   activated () {
     if (this.$store.state.mentionsList.page === 0) {
       this.loadParamsFromQuery()
@@ -186,19 +184,10 @@ export default {
     } else {
       this.saveStateToQuery()
     }
-    this.$nextTick(function () {
-      window.scrollTo(
-        this.$store.state.mentionsList.scrollPosition.x,
-        this.$store.state.mentionsList.scrollPosition.y
-      )
-    })
-  },
-  destroyed () {
-    document.removeEventListener('scroll', this.onScrollChange)
+    window.scrollTo(0, 0)
   },
   methods: {
     onFilterChange () {
-      console.log('filter change')
       this.page = 1
       this.loadItems()
     },
@@ -218,9 +207,6 @@ export default {
         this.loading = false
         this.saveStateToQuery()
       })
-    },
-    onScrollChange () {
-      this.$store.state.mentionsList.scrollPosition.y = window.scrollY
     },
     onPageChange (newPage: number) {
       this.page = newPage
