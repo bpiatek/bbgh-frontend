@@ -1,15 +1,12 @@
 <template>
   <CCard class="main-card">
     <CCardBody class="pt-0">
-      <ApiDataTable
-        :items="$store.state.articlesList.items"
+      <ApiList
+        :list="$store.state.articlesList"
         :fields="fields"
-        :total-pages="$store.state.articlesList.totalPages"
-        :total-elements="$store.state.articlesList.totalElements"
         :loading="loading"
         :header="!$store.state.mobile"
-        :page="$store.state.articlesList.page"
-        @pageChange="onPageChange"
+        @loadItems="loadItems"
         class="articles"
       >
         <template #url="{item}">
@@ -48,24 +45,21 @@
             </div>
           </td>
         </template>
-      </ApiDataTable>
+      </ApiList>
     </CCardBody>
   </CCard>
 </template>
 
 <script lang="ts">
-import ApiDataTable from '@/component/ApiDataTable.vue'
+import ApiList from '@/component/ApiList.vue'
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
-import { Article } from '@/api/model/Article'
-import { ListData } from '@/store'
 
 export default {
   name: 'Articles',
-  components: { ApiDataTable },
+  components: { ApiList },
   data () {
     return {
-      items: [] as Article[],
       fields: this.$store.state.mobile ? [
         { key: 'mobile' }
       ] : [
@@ -74,52 +68,22 @@ export default {
         { key: 'title', _style: 'min-width:200px;', sorter: false, label: this.$t('articles.list.title') },
         { key: 'creationDate', _style: 'width: 1%; white-space: nowrap;', sorter: false, label: this.$t('articles.list.creationDate') }
       ],
-      page: 1,
-      totalPages: 1,
-      totalElements: 0,
       loading: false
     }
-  },
-  activated () {
-    if (this.$store.state.articlesList.page === 0) {
-      this.loadParamsFromQuery()
-      this.loadItems()
-    } else {
-      this.saveStateToQuery()
-    }
-    window.scrollTo(0, 0)
   },
   methods: {
     loadItems () {
       this.loading = true
-      const pagination = new Pagination(this.page - 1, this.size)
+      const pagination = new Pagination(this.$route.query.page - 1, this.$store.state.articlesList.size)
       const sorts = [new Sort('creationDate', SortDirection.desc)]
       api.articles.articles(pagination, sorts).then((r) => {
-        const listData = new ListData<Article>()
+        const listData = this.$store.state.articlesList
         listData.items = r.data.content
         listData.totalPages = r.data.totalPages
         listData.totalElements = r.data.totalElements
-        listData.page = this.page
-        this.$store.commit('setArticlesList', listData)
+        listData.page = r.data.number + 1
         this.loading = false
-        this.saveStateToQuery()
       })
-    },
-    onPageChange (newPage: number) {
-      this.page = newPage
-      window.scrollTo(0, 0)
-      this.loadItems()
-    },
-    saveStateToQuery () {
-      this.$router.push({
-        query: {
-          page: this.page.toString()
-        }
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-      }).catch(() => {})
-    },
-    loadParamsFromQuery () {
-      this.page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
     }
   }
 }

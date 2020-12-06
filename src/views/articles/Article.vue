@@ -68,7 +68,7 @@ export default {
       size: 50
     }
   },
-  activated () {
+  created () {
     this.article = null
     this.articleId = this.$route.params.id
     api.articles.getById(this.articleId).then((r) => {

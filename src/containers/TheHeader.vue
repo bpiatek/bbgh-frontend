@@ -1,17 +1,17 @@
 <template>
   <CHeader fixed with-subheader light>
-    <CHeaderBrand class="mx-auto" to="/">
+    <CHeaderBrand class="mx-auto">
       Piłk<img src="/favicon.svg" alt="o" title="o">mentarz
     </CHeaderBrand>
     <CSubheader>
       <CHeaderNav class="m-auto">
         <CHeaderNavItem class="px-3">
-          <CHeaderNavLink to="/mentions" :class="{'c-active': $route.name === 'Mentions'}">
+          <CHeaderNavLink :to="{name: 'Mentions', query: this.$store.state.mentionsList.toQueryParameters()}" :class="{'c-active': $route.name === 'Mentions'}">
             {{ $t('Mentions') }}
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem class="px-3">
-          <CHeaderNavLink to="/articles" :class="{'c-active': $route.name === 'Articles'}">
+          <CHeaderNavLink :to="{name: 'Articles', query: this.$store.state.articlesList.toQueryParameters()}" :class="{'c-active': $route.name === 'Articles'}">
             {{ $t('Articles') }}
           </CHeaderNavLink>
         </CHeaderNavItem>

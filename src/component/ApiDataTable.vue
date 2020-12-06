@@ -47,7 +47,6 @@
 </template>
 
 <script lang="ts">
-import { Pagination, Sort, SortDirection } from '@/api/model/common'
 
 export default {
   name: 'ApiDataTable',
@@ -91,57 +90,6 @@ export default {
     },
     header: {
       default: true
-    }
-  },
-  // created () {
-  //   this.sort = {
-  //     column: this.defaultSort.column,
-  //     asc: this.defaultSort.sort
-  //   }
-  //   // this.loadRouteQuery()
-  //   // this.loadData()
-  // },
-  methods: {
-    loadData () {
-      const pagination = new Pagination(this.page - 1, this.size)
-      const sorts = this.sort.column ? [new Sort(this.sort.column, this.sort.asc ? SortDirection.asc : SortDirection.desc)] : []
-      this.$emit('update', { pagination, sorts })
-    },
-    updateSort ({ column, asc }: { column: string; asc: boolean }) {
-      this.$emit('sortChange', {
-        column: column,
-        asc: asc
-      })
-    },
-    // pageChange (pageNumber: number) {
-    // this.page = pageNumber
-    // this.loadData()
-    // this.updateRouteQuery()
-    // },
-    loadRouteQuery () {
-      if (!this.useQuery) {
-        return
-      }
-      this.page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
-      const sort = this.$route.query.sort ? Sort.fromString(this.$route.query.sort) : null
-      if (sort) {
-        this.sort = {
-          column: sort.name,
-          asc: sort.direction === SortDirection.asc
-        }
-      }
-    },
-    updateRouteQuery () {
-      if (!this.useQuery) {
-        return
-      }
-      this.$router.push({
-        query: {
-          page: this.page.toString(),
-          sort: this.sort.column ? (this.sort.column + ',' + (this.sort.asc ? 'asc' : 'desc')) : undefined
-        }
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-      }).catch(() => {})
     }
   }
 }

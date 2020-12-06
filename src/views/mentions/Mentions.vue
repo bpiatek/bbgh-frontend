@@ -1,15 +1,13 @@
 <template>
   <CCard class="main-card">
     <CCardBody>
-      <ApiDataTable
-        :items="$store.state.mentionsList.items"
+      <ApiList
+        :list="$store.state.mentionsList"
         :fields="fields"
-        :total-pages="$store.state.mentionsList.totalPages"
-        :total-elements="$store.state.mentionsList.totalElements"
         :loading="loading"
         :header="!$store.state.mobile"
-        :page="$store.state.mentionsList.page"
-        @pageChange="onPageChange"
+        @loadItems="loadItems"
+        @queryChange="onQueryChange"
       >
         <slot slot="#filters">
           <CRow>
@@ -17,8 +15,8 @@
             <CCol lg="6" md="12">
               <multiselect
                 ref="sentimentFilter"
+                :value="filterSentiment"
                 class="mentions-sentiment-filter"
-                v-model="filterSentiment"
                 :searchable="false"
                 :multiple="true"
                 :clear-on-select="false"
@@ -27,7 +25,7 @@
                 label="label"
                 track-by="value"
                 :show-labels="false"
-                @input="onFilterChange"
+                @input="onFilterSentimentChange"
                 :options="filterSentimentOptions">
                 <template slot="tag" slot-scope="props">
                   <button
@@ -126,23 +124,27 @@
             </div>
           </td>
         </template>
-      </ApiDataTable>
+      </ApiList>
     </CCardBody>
   </CCard>
 </template>
 
 <script lang="ts">
-import ApiDataTable from '@/component/ApiDataTable.vue'
+import ApiList from '@/component/ApiList.vue'
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
 import { Mention } from '@/api/model/Mention'
 import MentionSentimentEditor from '@/component/mention/MentionSentimentEditor.vue'
 import Multiselect from 'vue-multiselect'
-import { MentionsList } from '@/store'
+
+type FilterSentimentOption = {
+  value: string;
+  label: string;
+}
 
 export default {
   name: 'Mentions',
-  components: { ApiDataTable, MentionSentimentEditor, Multiselect },
+  components: { ApiList, MentionSentimentEditor, Multiselect },
   data () {
     return {
       items: [] as Mention[],
@@ -155,80 +157,40 @@ export default {
         { key: 'playerFullName', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.player') },
         { key: 'commentDate', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.commentDate') }
       ],
-      page: 1,
-      totalPages: 1,
-      totalElements: 0,
       loading: false,
-      filterSentiment: this.$store.state.mentionsList.filterSentiment,
-      sentiments: {
-        NOT_CHECKED: this.$t('sentiment.NOT_CHECKED'),
-        POSITIVE: this.$t('sentiment.POSITIVE'),
-        NEUTRAL: this.$t('sentiment.NEUTRAL'),
-        NEGATIVE: this.$t('sentiment.NEGATIVE')
-      }
+      filterSentiment: [],
+      filterSentimentOptions: [
+        { value: 'NOT_CHECKED', label: this.$t('sentiment.NOT_CHECKED') },
+        { value: 'POSITIVE', label: this.$t('sentiment.POSITIVE') },
+        { value: 'NEUTRAL', label: this.$t('sentiment.NEUTRAL') },
+        { value: 'NEGATIVE', label: this.$t('sentiment.NEGATIVE') }
+      ]
     }
-  },
-  computed: {
-    filterSentimentOptions () {
-      const result: {}[] = []
-      for (const [key, value] of Object.entries(this.sentiments)) {
-        result.push({ value: key, label: value })
-      }
-      return result
-    }
-  },
-  activated () {
-    if (this.$store.state.mentionsList.page === 0) {
-      this.loadParamsFromQuery()
-      this.loadItems()
-    } else {
-      this.saveStateToQuery()
-    }
-    window.scrollTo(0, 0)
   },
   methods: {
-    onFilterChange () {
-      this.page = 1
-      this.loadItems()
-    },
-    loadItems () {
-      this.loading = true
-      const pagination = new Pagination(this.page - 1, this.size)
-      const sorts = [new Sort('comment.dateAdded', SortDirection.desc)]
-      const sentiments = this.filterSentiment.map((s: {value: string}) => s.value)
-      api.mentions.search(pagination, sorts, sentiments).then((r) => {
-        const listData = new MentionsList()
-        listData.items = r.data.content
-        listData.totalPages = r.data.totalPages
-        listData.totalElements = r.data.totalElements
-        listData.page = this.page
-        listData.filterSentiment = this.filterSentiment
-        this.$store.commit('setMentionsList', listData)
-        this.loading = false
-        this.saveStateToQuery()
-      })
-    },
-    onPageChange (newPage: number) {
-      this.page = newPage
-      window.scrollTo(0, 0)
-      this.loadItems()
-    },
-    saveStateToQuery () {
+    onFilterSentimentChange ($event: {value: string}[]) {
       this.$router.push({
-        query: {
-          page: this.page.toString(),
-          sentiments: this.filterSentiment.map((s: {value: string}) => s.value)
-        }
+        query: { ...this.$route.query, ...{ page: 1, sentiments: $event.length > 0 ? $event.map(v => v.value).join(',') : undefined } }
         // eslint-disable-next-line @typescript-eslint/no-empty-function
       }).catch(() => {})
     },
-    loadParamsFromQuery () {
-      this.page = this.$route.query.page ? parseInt(this.$route.query.page) : 1
-      let sentiments = this.$route.query.sentiments
-      if (sentiments !== undefined) {
-        sentiments = sentiments.split(',')
-        sentiments.forEach((value: string) => this.filterSentiment.push({ value: value, label: this.sentiments[value] }))
-      }
+    loadItems () {
+      this.loading = true
+      const pagination = new Pagination(this.$route.query.page - 1, this.$store.state.mentionsList.size)
+      const sorts = [new Sort('comment.dateAdded', SortDirection.desc)]
+      const sentiments = this.$route.query.sentiments ? this.$route.query.sentiments.split(',') : []
+      api.mentions.search(pagination, sorts, sentiments).then((r) => {
+        this.$store.state.mentionsList.items = r.data.content
+        this.$store.state.mentionsList.totalPages = r.data.totalPages
+        this.$store.state.mentionsList.totalElements = r.data.totalElements
+        this.$store.state.mentionsList.page = r.data.number + 1
+        this.$store.state.mentionsList.filterSentiment = sentiments
+        this.loading = false
+      })
+    },
+    onQueryChange () {
+      const sentiments = this.$route.query.sentiments ? this.$route.query.sentiments.split(',') : []
+      this.filterSentiment = this.filterSentimentOptions.filter((v: FilterSentimentOption) => sentiments.includes(v.value))
     }
   }
 }

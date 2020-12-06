@@ -6,13 +6,39 @@ Vue.use(Vuex)
 
 export class ListData<T> {
   items: T[] = []
-  page = 0
-  totalPages = 0
+  page = 1
+  size = 20
+  totalPages = 1
   totalElements = 0
+  scrollPosition = { x: 0, y: 0 }
+  toQueryParameters (): {[k: string]: string|undefined} {
+    return {
+      page: this.page.toString()
+    }
+  }
+
+  queryDiffers (query: {[k: string]: string|number|undefined}): boolean {
+    const thisQuery = this.toQueryParameters()
+    for (const key of Object.keys(thisQuery)) {
+      if (thisQuery[key] !== query[key]) {
+        return true
+      }
+    }
+    return false
+  }
 }
 
 export class MentionsList extends ListData<Mention> {
   filterSentiment = []
+  toQueryParameters (): {[k: string]: any} {
+    const result = super.toQueryParameters()
+    if (this.filterSentiment.length > 0) {
+      result.sentiments = this.filterSentiment.join(',')
+    } else {
+      result.sentiments = undefined
+    }
+    return result
+  }
 }
 
 type State = {

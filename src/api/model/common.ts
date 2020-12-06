@@ -43,6 +43,7 @@ export interface PaginatedData<T> {
   last: boolean;
   numberOfElements: number;
   totalElements: number;
+  number: number;
   totalPages: number;
 }
 
