@@ -167,6 +167,13 @@ export default {
       ]
     }
   },
+  created () {
+    if (this.$route.query.page === undefined) {
+      this.$nextTick(() => {
+        window.scrollTo(0, 0)
+      })
+    }
+  },
   methods: {
     onFilterSentimentChange ($event: {value: string}[]) {
       this.$router.push({

@@ -65,9 +65,6 @@ export default {
   created () {
     this.onQueryChange()
     window.addEventListener('scroll', this.handleScroll)
-    this.$nextTick(() => {
-      window.scrollTo(0, this.list.scrollPosition.y)
-    })
   },
   destroyed () {
     window.removeEventListener('scroll', this.handleScroll)
@@ -86,6 +83,15 @@ export default {
       this.$emit('queryChange')
       if (this.list.queryDiffers(this.$route.query) || this.list.items.length === 0) {
         this.$emit('loadItems')
+      }
+      if (this.$route.query.scrollY !== undefined) {
+        this.$nextTick(() => {
+          window.scrollTo(0, this.$route.query.scrollY)
+        })
+      } else {
+        this.$nextTick(() => {
+          window.scrollTo(0, 0)
+        })
       }
     }
   },
