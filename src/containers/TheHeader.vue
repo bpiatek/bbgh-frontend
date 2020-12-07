@@ -1,6 +1,6 @@
 <template>
   <CHeader fixed with-subheader light>
-    <CHeaderBrand class="mx-auto" to="/">
+    <CHeaderBrand class="mx-auto" href="/">
       Piłk<img src="/favicon.svg" alt="o" title="o">mentarz
     </CHeaderBrand>
     <CSubheader>

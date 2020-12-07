@@ -85,12 +85,11 @@ export default {
         this.$emit('loadItems')
       }
       if (this.$route.query.scrollY !== undefined) {
+        const scrollY = this.$route.query.scrollY
+        this.$router.replace({ query: { ...this.$route.query, ...{ scrollY: undefined } } })
+
         this.$nextTick(() => {
-          window.scrollTo(0, this.$route.query.scrollY)
-        })
-      } else {
-        this.$nextTick(() => {
-          window.scrollTo(0, 0)
+          window.scrollTo(0, scrollY)
         })
       }
     }
