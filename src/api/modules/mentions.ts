@@ -11,8 +11,11 @@ export class MentionsApi {
     return apiService.get('/mentions', { params })
   }
 
-  setMentionSentiment (id: number, data: setMentionSentimentRequest): Promise<AxiosResponse<undefined>> {
-    return apiService.post(`/mentions/${id}/sentiment`, data)
+  setMentionSentiment (id: number, { mentionSentiment }: setMentionSentimentRequest): Promise<AxiosResponse<undefined>> {
+    return apiService.post(`/mentions/${id}/sentiment`, {
+      mentionSentiment: mentionSentiment,
+      human: true
+    })
   }
 }
 
