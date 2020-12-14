@@ -7,7 +7,7 @@ import { AxiosResponse } from 'axios'
 export class MentionsApi {
   search (pagination: Pagination, sorts: Sort[] = [], sentiments: MentionSentimentEnum[]): ListResponse<Mention> {
     const params = new ListSearchParams(pagination, sorts)
-    sentiments.forEach((s) => { params.append('sentiments', s) })
+    sentiments.forEach((s) => { params.append('sentiment', s) })
     return apiService.get('/mentions', { params })
   }
 
