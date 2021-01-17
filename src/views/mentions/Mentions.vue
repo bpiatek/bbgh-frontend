@@ -2,21 +2,20 @@
   <CCard class="main-card">
     <CCardBody>
       <ApiList
-        :list="$store.state.mentionsList"
+        :list="view.mentionsList"
         :fields="fields"
-        :loading="loading"
         :header="!$store.state.mobile"
-        @loadItems="loadItems"
-        @queryChange="onQueryChange"
+        @pageChange="loadItems"
+        top-pagination
       >
-        <slot slot="#filters">
+        <template #filters>
           <CRow>
             <CCol lg="3" md="12"></CCol>
             <CCol lg="6" md="12">
               <multiselect
                 ref="sentimentFilter"
-                :value="filterSentiment"
                 class="mentions-sentiment-filter"
+                v-model="view.mentionsList.filterSentiment"
                 :searchable="false"
                 :multiple="true"
                 :clear-on-select="false"
@@ -25,7 +24,7 @@
                 label="label"
                 track-by="value"
                 :show-labels="false"
-                @input="onFilterSentimentChange"
+                @input="loadItems"
                 :options="filterSentimentOptions">
                 <template slot="tag" slot-scope="props">
                   <button
@@ -42,10 +41,10 @@
             <CCol lg="3" md="12"></CCol>
 
           </CRow>
-        </slot>
+        </template>
         <template #commentDate="{item}">
           <td class="text-nowrap text-xl-right">
-            {{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}
+            {{ dayjs(item.commentDate).format('DD MMM YYYY HH:mm') }}
           </td>
         </template>
         <template #article="{item}">
@@ -57,10 +56,8 @@
           <td>
             {{ item.commentContent.substr(0, item.startsAt) }}
             <MentionSentimentEditor
-              :mention-id="item.id"
-              :value="item.mentionSentiment"
-              @input="item.mentionSentiment = $event"
-              :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
+              :mention="item"
+              inline
             ></MentionSentimentEditor>
             {{ item.commentContent.substr(item.endsAt) }}
           </td>
@@ -68,10 +65,7 @@
         <template #playerFullName="{item}">
           <td>
             <MentionSentimentEditor
-              :mention-id="item.id"
-              :value="item.mentionSentiment"
-              @input="item.mentionSentiment = $event"
-              :player="item.playerFullName"
+              :mention="item"
             ></MentionSentimentEditor>
           </td>
         </template>
@@ -83,7 +77,7 @@
             }}</span>{{ item.commentContent.substr(item.endsAt) }}
             <br>
             <div class="mentions-mobile-comment-footer">
-              <i>{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i> |
+              <i>{{ dayjs(item.commentDate).format('DD MMM YYYY HH:mm') }}</i> |
               <strong>
                 <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{
                     $t('mentions.list.article')
@@ -97,20 +91,14 @@
           <td class="datatable-mobile mentions-mobile-comment">
             <div class="mentions-mobile-comment-header pb-2">
               <MentionSentimentEditor
-                :mention-id="item.id"
-                :value="item.mentionSentiment"
-                :player="item.playerFullName"
-                @input="item.mentionSentiment = $event"
+                :mention="item"
               ></MentionSentimentEditor>
             </div>
             <div class="mentions-mobile-comment-content">
               {{ item.commentContent.substr(0, item.startsAt) }}
               <MentionSentimentEditor
-                class="mention-sentiment-in-text"
-                :mention-id="item.id"
-                :value="item.mentionSentiment"
-                @input="item.mentionSentiment = $event"
-                :player="item.commentContent.substr(item.startsAt, item.endsAt - item.startsAt)"
+                :mention="item"
+                inline
               ></MentionSentimentEditor>
               {{ item.commentContent.substr(item.endsAt) }}
             </div>
@@ -133,7 +121,6 @@
 import ApiList from '@/component/ApiList.vue'
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
-import { Mention } from '@/api/model/Mention'
 import MentionSentimentEditor from '@/component/mention/MentionSentimentEditor.vue'
 import Multiselect from 'vue-multiselect'
 
@@ -147,7 +134,8 @@ export default {
   components: { ApiList, MentionSentimentEditor, Multiselect },
   data () {
     return {
-      items: [] as Mention[],
+      view: this.$store.state.mentionsView,
+      filterSentimentValue: [],
       fields: this.$store.state.mobile ? [
         { key: 'mobile', sorter: false, label: this.$t('mentions.list.comment') }
       ] : [
@@ -157,8 +145,6 @@ export default {
         { key: 'playerFullName', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.player') },
         { key: 'commentDate', sorter: false, _classes: 'text-nowrap', label: this.$t('mentions.list.commentDate') }
       ],
-      loading: false,
-      filterSentiment: [],
       filterSentimentOptions: [
         { value: 'NOT_CHECKED', label: this.$t('sentiment.NOT_CHECKED') },
         { value: 'POSITIVE', label: this.$t('sentiment.POSITIVE') },
@@ -167,37 +153,19 @@ export default {
       ]
     }
   },
-  created () {
-    if (this.$route.query.page === undefined) {
-      this.$nextTick(() => {
-        window.scrollTo(0, 0)
-      })
-    }
-  },
   methods: {
-    onFilterSentimentChange ($event: {value: string}[]) {
-      this.$router.push({
-        query: { ...this.$route.query, ...{ page: 1, sentiments: $event.length > 0 ? $event.map(v => v.value).join(',') : undefined } }
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-      }).catch(() => {})
-    },
     loadItems () {
-      this.loading = true
-      const pagination = new Pagination(this.$route.query.page - 1, this.$store.state.mentionsList.size)
+      const list = this.view.mentionsList
+      list.loading = true
+      const pagination = new Pagination(this.view.mentionsList.page - 1, list.size)
       const sorts = [new Sort('comment.dateAdded', SortDirection.desc)]
-      const sentiments = this.$route.query.sentiments ? this.$route.query.sentiments.split(',') : []
+      const sentiments = this.view.mentionsList.filterSentiment.map(v => v.value)
       api.mentions.search(pagination, sorts, sentiments).then((r) => {
-        this.$store.state.mentionsList.items = r.data.content
-        this.$store.state.mentionsList.totalPages = r.data.totalPages
-        this.$store.state.mentionsList.totalElements = r.data.totalElements
-        this.$store.state.mentionsList.page = r.data.number + 1
-        this.$store.state.mentionsList.filterSentiment = sentiments
-        this.loading = false
+        list.items = r.data.content
+        list.totalPages = r.data.totalPages
+        list.totalElements = r.data.totalElements
+        list.loading = false
       })
-    },
-    onQueryChange () {
-      const sentiments = this.$route.query.sentiments ? this.$route.query.sentiments.split(',') : []
-      this.filterSentiment = this.filterSentimentOptions.filter((v: FilterSentimentOption) => sentiments.includes(v.value))
     }
   }
 }

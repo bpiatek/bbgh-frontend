@@ -40,9 +40,27 @@ $sentiment-NEGATIVE: #e65a5a;
   }
 }
 
+.a-soft {
+  font-weight: bold;
+  color: #3c4b64;
+}
+
 @media (min-width:  768px) {
-  .main-card {
+  .c-main {
+    min-width: 600px;
+  }
+  .card {
     border-radius: 1rem;
+  }
+  .card-header {
+    border-top-right-radius: 1rem !important;
+    border-top-left-radius: 1rem !important;
+  }
+}
+
+@media (min-width:  1600px) {
+  .c-main {
+    min-width: 1140px;
   }
 }
 
@@ -213,9 +231,30 @@ $sentiment-NEGATIVE: #e65a5a;
   }
 }
 
-.articles {
-  .a-soft {
-    font-weight: bold;
+.player {
+  .player-info {
+    td {
+      padding-left: 1em;
+    }
+    th:after {
+      content: ":";
+    }
+  }
+  .player-score {
+    font-size: 64px;
+    color: $sentiment-POSITIVE;
+  }
+  .search-player {
     color: #3c4b64;
+    text-align: left;
+    -webkit-border-radius: 2rem;
+    -moz-border-radius: 4rem;
+    border-color: #7e90aa;
+    font-size: 20px;
+    min-width: 300px;
+
+    .vs__dropdown-menu {
+      font-size: 16px;
+    }
   }
 }

@@ -8,7 +8,7 @@
           </h3>
           <CRow>
             <CCol col="12"><a :href="article.url">{{ article.url }}</a></CCol>
-            <CCol col="12" class="text-nowrap">{{ dayjs(article.creationDate).format('YYYY-MM-DD h:mm:ss') }}</CCol>
+            <CCol col="12" class="text-nowrap">{{ dayjs(article.creationDate).format('DD MMM YYYY HH:mm') }}</CCol>
           </CRow>
           <hr/>
           {{ article.content }}
@@ -36,7 +36,7 @@
             <td>
               {{ item.content }}
               <div class="text-right">
-                <i>{{item.author}}, {{ dayjs(item.dateAdded).format('YYYY-MM-DD h:mm:ss')}}</i>
+                <i>{{item.author}}, {{ dayjs(item.dateAdded).format('DD MMM YYYY HH:mm')}}</i>
               </div>
             </td>
           </template>

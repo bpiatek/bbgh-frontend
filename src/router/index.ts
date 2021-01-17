@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import TheContainer from '@/containers/TheContainer.vue'
 import Articles from '@/views/articles/Articles.vue'
 import Article from '@/views/articles/Article.vue'
+import Player from '@/views/players/Player.vue'
 import Mentions from '@/views/mentions/Mentions.vue'
 import i18n from '../i18n'
 
@@ -54,6 +55,22 @@ function configRoutes () {
           component: Mentions,
           meta: {
             label: i18n.tc('Mentions')
+          }
+        },
+        {
+          path: 'players/:id',
+          name: 'Player',
+          component: Player,
+          meta: {
+            label: i18n.tc('Player')
+          }
+        },
+        {
+          path: 'players',
+          name: 'Players',
+          component: Player,
+          meta: {
+            label: i18n.tc('Player')
           }
         }
 

@@ -2,12 +2,12 @@
   <CCard class="main-card">
     <CCardBody class="pt-0">
       <ApiList
-        :list="$store.state.articlesList"
+        :list="view.articlesList"
         :fields="fields"
-        :loading="loading"
         :header="!$store.state.mobile"
-        @loadItems="loadItems"
+        @pageChange="loadItems"
         class="articles"
+        top-pagination
       >
         <template #url="{item}">
           <td>
@@ -26,7 +26,7 @@
         </template>
         <template #creationDate="{item}">
           <td class="text-nowrap text-xl-right">
-            {{ dayjs(item.creationDate).format('YYYY-MM-DD HH:mm:ss') }}
+            {{ dayjs(item.creationDate).format('DD MMM YYYY HH:mm') }}
           </td>
         </template>
         <template #mobile="{item}">
@@ -38,7 +38,7 @@
               {{  item.title  }}
             </router-link>
             <div class="text-nowrap pt-2 text-right">
-              <i class="text-nowrap">{{  dayjs(item.creationDate).format('YYYY-MM-DD HH:mm:ss')  }}</i>
+              <i class="text-nowrap">{{  dayjs(item.creationDate).format('DD MMM YYYY HH:mm')  }}</i>
               <span class="text-nowrap pl-2">
                 <a :href="item.url">90minut.pl</a>
               </span>
@@ -60,6 +60,7 @@ export default {
   components: { ApiList },
   data () {
     return {
+      view: this.$store.state.articlesView,
       fields: this.$store.state.mobile ? [
         { key: 'mobile' }
       ] : [
@@ -73,16 +74,15 @@ export default {
   },
   methods: {
     loadItems () {
-      this.loading = true
-      const pagination = new Pagination(this.$route.query.page - 1, this.$store.state.articlesList.size)
+      const list = this.view.articlesList
+      list.loading = true
+      const pagination = new Pagination(this.view.articlesList.page - 1, this.view.articlesList.size)
       const sorts = [new Sort('creationDate', SortDirection.desc)]
       api.articles.articles(pagination, sorts).then((r) => {
-        const listData = this.$store.state.articlesList
-        listData.items = r.data.content
-        listData.totalPages = r.data.totalPages
-        listData.totalElements = r.data.totalElements
-        listData.page = r.data.number + 1
-        this.loading = false
+        list.items = r.data.content
+        list.totalPages = r.data.totalPages
+        list.totalElements = r.data.totalElements
+        list.loading = false
       })
     }
   }

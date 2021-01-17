@@ -7,7 +7,9 @@ import {
   cilInfo,
   cilX,
   cilSpeak,
-  cilArrowThickFromRight
+  cilArrowThickFromRight,
+  cilSearch,
+  cilBan
 } from '@coreui/icons/js/free'
 
 export default {
@@ -19,5 +21,7 @@ export default {
   cilInfo,
   cilX,
   cilSpeak,
-  cilArrowThickFromRight
+  cilArrowThickFromRight,
+  cilSearch,
+  cilBan
 }

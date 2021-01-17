@@ -1,4 +1,4 @@
-export type Mention = {
+export interface Mention {
   id: number;
   articleId: number;
   commentId: number;

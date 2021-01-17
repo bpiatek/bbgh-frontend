@@ -6,13 +6,21 @@
     <CSubheader>
       <CHeaderNav class="m-auto">
         <CHeaderNavItem class="px-3">
-          <CHeaderNavLink :to="{name: 'Mentions', query: listQuery($store.state.mentionsList)}" :class="{'c-active': $route.name === 'Mentions'}">
+          <CHeaderNavLink :to="{name: 'Mentions'}" :class="{'c-active': $route.name === 'Mentions'}">
             {{ $t('Mentions') }}
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem class="px-3">
-          <CHeaderNavLink :to="{name: 'Articles', query: listQuery($store.state.articlesList)}" :class="{'c-active': $route.name === 'Articles'}">
+          <CHeaderNavLink :to="{name: 'Articles'}" :class="{'c-active': $route.name === 'Articles'}">
             {{ $t('Articles') }}
+          </CHeaderNavLink>
+        </CHeaderNavItem>
+        <CHeaderNavItem class="px-3">
+          <CHeaderNavLink
+            :to="$store.state.lastPlayerId ? `/players/${$store.state.lastPlayerId}` : '/players'"
+            :class="{'c-active': ['Players', 'Player'].includes($route.name)}"
+          >
+            {{ $t('Players') }}
           </CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
@@ -21,15 +29,11 @@
 </template>
 
 <script lang="ts">
-import { ListData } from '@/store'
+import { List } from '@/model/list'
 
 export default {
   name: 'TheHeader',
   components: {},
-  methods: {
-    listQuery (list: ListData<unknown>) {
-      return { ...list.toQueryParameters(), ...{ scrollY: list.scrollPosition.y } }
-    }
-  }
+  methods: {}
 }
 </script>

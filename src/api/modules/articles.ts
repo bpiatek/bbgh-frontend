@@ -18,6 +18,11 @@ export class ArticlesApi {
       params: new ListSearchParams(pagination, sorts)
     })
   }
+
+  playerArticles (playerId: number, pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
+    const params = new ListSearchParams(pagination, sorts)
+    return apiService.get(`/articles/player/${playerId}`, { params })
+  }
 }
 
 export default new ArticlesApi()

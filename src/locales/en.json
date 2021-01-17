@@ -4,6 +4,8 @@
   "Mentions": "Mentions",
   "Comments": "Comments",
   "Sentiment": "Sentiment",
+  "Player": "Player",
+  "Players": "Players",
   "Article Details": "Article Details",
   "datatable": {
     "page": "Page",
@@ -47,5 +49,6 @@
   },
   "actions": {
     "go_back": "Back"
-  }
+  },
+  "search player": "Search player"
 }

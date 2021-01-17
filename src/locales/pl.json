@@ -3,6 +3,8 @@
   "Articles": "Artykuły",
   "Mentions": "Wzmianki",
   "Comments": "Komentarze",
+  "Player": "Zawodnik",
+  "Players": "Zawodnicy",
   "Sentiment": "Sentyment",
   "Article Details": "Szczegóły Artykułu",
   "datatable": {
@@ -47,5 +49,6 @@
   },
   "actions": {
     "go_back": "Cofnij"
-  }
+  },
+  "search player": "Szukaj zawodnika..."
 }

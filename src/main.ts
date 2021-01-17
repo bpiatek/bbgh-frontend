@@ -6,6 +6,7 @@ import CoreuiVue from '@coreui/vue'
 import icons from './assets/icons/icons'
 import ApiService from '@/api/ApiService'
 import dayjs from 'dayjs'
+import 'dayjs/locale/pl'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import i18n from './i18n'
 
@@ -14,6 +15,7 @@ ApiService.init(process.env.VUE_APP_API_HOST !== undefined ? process.env.VUE_APP
 
 // dayjs plugins
 dayjs.extend(relativeTime)
+dayjs.locale('pl')
 
 // Vue
 Vue.use(CoreuiVue)

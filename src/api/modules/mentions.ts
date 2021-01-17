@@ -17,6 +17,11 @@ export class MentionsApi {
       human: true
     })
   }
+
+  playerMentions (playerId: number, pagination: Pagination, sorts: Sort[] = []): ListResponse<Mention> {
+    const params = new ListSearchParams(pagination, sorts)
+    return apiService.get(`/mentions/player/${playerId}`, { params })
+  }
 }
 
 export default new MentionsApi()
