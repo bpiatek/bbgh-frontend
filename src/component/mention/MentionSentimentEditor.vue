@@ -37,7 +37,7 @@ export default {
       return this.mention.playerFullName
     }
   },
-  methods: {,
+  methods: {
     change (toValue: MentionSentimentEnum) {
       api.mentions.setMentionSentiment(this.mention.id, { mentionSentiment: toValue })
         .then(() => {
