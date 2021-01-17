@@ -15,9 +15,10 @@
           <h1>{{ view.player.firstName }} {{ view.player.lastName }}</h1>
         </CCardHeader>
         <CCardBody>
-          <CRow>
-            <CCol col="4">
-              <table class="player-info">
+          <CRow class="player-info">
+            <CCol col="12" md="4">
+              <h5>Profil</h5>
+              <table class="player-info-table">
                 <tbody>
                 <tr>
                   <th>Data urodzenia</th>
@@ -35,7 +36,8 @@
                 </tbody>
               </table>
             </CCol>
-            <CCol col="4">
+            <CCol col="6" md="4">
+              <h5>Wzmianki</h5>
               <table class="player-info" v-if="view.playerRatio">
                 <tbody>
                 <tr>
@@ -53,8 +55,9 @@
                 </tbody>
               </table>
             </CCol>
-            <CCol col="4" v-if="view.playerRatio">
-              <h1 class="player-score">{{ view.playerRatio.ratio }} %</h1>
+            <CCol col="6" md="4" v-if="view.playerRatio">
+              <h5>Pozytywnych</h5>
+              <span class="player-score">{{ view.playerRatio.ratio }} %</span>
             </CCol>
           </CRow>
         </CCardBody>

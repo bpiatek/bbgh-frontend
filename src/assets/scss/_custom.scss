@@ -40,6 +40,12 @@ $sentiment-NEGATIVE: #e65a5a;
   }
 }
 
+.card-header {
+  h1 {
+    margin: 0;
+  }
+}
+
 .a-soft {
   font-weight: bold;
   color: #3c4b64;
@@ -180,34 +186,22 @@ $sentiment-NEGATIVE: #e65a5a;
   }
 }
 
-.mentions-mobile-comment {
+.mentions-item-mobile {
   @media (max-width: 575px) {
-    .btn-mention-sentiment {
+    .header {
       margin-left: 4rem;
     }
+
   }
-  .mention-sentiment-in-text {
-    button {
-      margin: 0 0.1rem;
-    }
-  }
-  .mentions-mobile-comment-header {
+  .header {
     padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
-  .mentions-mobile-comment-content {
-    .mention-sentiment-status-dropdown {
-      button {
-        padding: 0;
-        background: none;
-        border-width: 0;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-        border-bottom-width: 3px;
-      }
-      button:hover {
-        color: black;
-        background: none;
-      }
+  .footer {
+    text-align: right;
+    a {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
     }
   }
 }
@@ -232,7 +226,18 @@ $sentiment-NEGATIVE: #e65a5a;
 }
 
 .player {
-  .player-info {
+  @media (max-width: 767px) {
+    .player-info {
+      h5 {
+        margin-bottom: 0;
+        font-weight: bolder;
+      }
+      .col-12 {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+  .player-info-table {
     td {
       padding-left: 1em;
     }
@@ -242,6 +247,9 @@ $sentiment-NEGATIVE: #e65a5a;
   }
   .player-score {
     font-size: 64px;
+    @media (max-width: 767px) {
+      font-size: 32px;
+    }
     color: $sentiment-POSITIVE;
   }
   .search-player {

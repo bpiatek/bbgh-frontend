@@ -88,13 +88,13 @@
           </td>
         </template>
         <template #mobile="{item}">
-          <td class="datatable-mobile mentions-mobile-comment">
-            <div class="mentions-mobile-comment-header pb-2">
+          <td class="mentions-item-mobile">
+            <div class="header">
               <MentionSentimentEditor
                 :mention="item"
               ></MentionSentimentEditor>
             </div>
-            <div class="mentions-mobile-comment-content">
+            <div class="content">
               {{ item.commentContent.substr(0, item.startsAt) }}
               <MentionSentimentEditor
                 :mention="item"
@@ -102,13 +102,11 @@
               ></MentionSentimentEditor>
               {{ item.commentContent.substr(item.endsAt) }}
             </div>
-            <div class="text-nowrap pt-2 text-right">
-              <i class="text-nowrap">{{ dayjs(item.commentDate).format('YYYY-MM-DD HH:mm:ss') }}</i>
-              <span class="text-nowrap pl-2">
-                <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{
-                    $t('mentions.list.article')
-                  }}</router-link>
-              </span>
+            <div class="footer">
+              <i>{{ dayjs(item.commentDate).format('DD MMM YYYY HH:mm') }}</i>
+              <router-link :to="{name: 'Article', params: {id: item.articleId}}">{{
+                  $t('mentions.list.article')
+                }}</router-link>
             </div>
           </td>
         </template>

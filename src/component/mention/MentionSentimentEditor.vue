@@ -1,26 +1,10 @@
 <template>
   <router-link
-    :class="`text-nowrap btn-mention-sentiment sentiment-${mention.mentionSentiment}`"
+    :class="`text-nowrap btn-mention-sentiment sentiment-${mention.mentionSentiment} ` + (inline ? 'inline' : '')"
     :to="{name: 'Player', params: { id: mention.playerId }}"
   >
     {{ playerName }}
   </router-link>
-  <!--    <CDropdown-->
-  <!--      :class="{-->
-  <!--        'mention-sentiment-status-dropdown': true,-->
-  <!--        'mention-sentiment-in-text': inline-->
-  <!--      }"-->
-  <!--      :toggler-text="playerName"-->
-  <!--      :add-toggler-classes="`btn-mention-sentiment sentiment-${mention.mentionSentiment}`"-->
-  <!--    >-->
-  <!--      <CDropdownItem-->
-  <!--        v-for="(v, index) in enumValues"-->
-  <!--        :key="index"-->
-  <!--        @click="change(v)"-->
-  <!--      >-->
-  <!--        {{ $t("sentiment."+v) }}-->
-  <!--      </CDropdownItem>-->
-  <!--    </CDropdown>-->
 </template>
 
 <script lang="ts">
@@ -53,10 +37,7 @@ export default {
       return this.mention.playerFullName
     }
   },
-  methods: {
-    onClick () {
-      console.log('click!')
-    },
+  methods: {,
     change (toValue: MentionSentimentEnum) {
       api.mentions.setMentionSentiment(this.mention.id, { mentionSentiment: toValue })
         .then(() => {
