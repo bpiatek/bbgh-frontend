@@ -34,11 +34,15 @@ export default {
     inline: {
       type: Boolean,
       default: false
+    },
+    short: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     playerName () {
-      if (this.inline) {
+      if (this.short || this.inline) {
         return this.mention.commentContent.substr(this.mention.startsAt, this.mention.endsAt - this.mention.startsAt)
       }
       return this.mention.playerFullName

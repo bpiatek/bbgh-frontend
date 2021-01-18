@@ -182,19 +182,25 @@ $sentiment-NEGATIVE: #e65a5a;
   }
 }
 
-.mention-sentiment-status-dropdown {
-  display: inline-block;
-  .dropdown-toggle::after {
-    content: none;
-  }
-}
-
 .mentions-item-mobile {
   @media (max-width: 575px) {
     .header {
       margin-left: 4rem;
     }
 
+  }
+  .btn-mention-sentiment.inline {
+    background-color: transparent;
+    border-width: 0 0 4px 0;
+    border-radius: 0;
+    line-height: 0.80;
+    padding: 0;
+    text-shadow:
+            2px 2px white,
+            2px -2px white,
+            -2px 2px white,
+            -2px -2px white;
+    border-style: solid;
   }
   .header {
     padding-top: 0.5rem;
