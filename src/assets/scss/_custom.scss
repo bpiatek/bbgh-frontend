@@ -114,6 +114,9 @@ $sentiment-NEGATIVE: #e65a5a;
   margin: 0;
   vertical-align: baseline;
   line-height: normal;
+  &:hover {
+    text-decoration: underline;
+  }
 }
 
 .sentiment-POSITIVE {

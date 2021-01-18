@@ -1,22 +1,29 @@
 <template>
-  <router-link
+  <a
     :class="`text-nowrap btn-mention-sentiment sentiment-${mention.mentionSentiment} ` + (inline ? 'inline' : '')"
-    :to="{name: 'Player', params: { id: mention.playerId }}"
+    @contextmenu.prevent="showContextMenu"
+    @click.prevent="goToPlayer"
+    href=""
   >
-    {{ playerName }}
-  </router-link>
+          {{ playerName }}
+  </a>
 </template>
 
 <script lang="ts">
 import api from '@/api/api'
 import { Mention, MentionSentimentEnum } from '@/api/model/Mention'
 import { Alert } from '@/model/alert'
+import { ContextMenuOption } from '@/model/contextMenu'
 
 export default {
   name: 'MentionSentimentEditor',
   data () {
     return {
-      enumValues: MentionSentimentEnum
+      options: [
+        { name: MentionSentimentEnum.POSITIVE, label: 'Pozytywny', class: 'sentiment-POSITIVE' },
+        { name: MentionSentimentEnum.NEUTRAL, label: 'Neutralny', class: 'sentiment-NEUTRAL' },
+        { name: MentionSentimentEnum.NEGATIVE, label: 'Negatywy', class: 'sentiment-NEGATIVE' }
+      ]
     }
   },
   props: {
@@ -38,7 +45,20 @@ export default {
     }
   },
   methods: {
-    change (toValue: MentionSentimentEnum) {
+    goToPlayer () {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      this.$router.push({ name: 'Player', params: { id: this.mention.playerId } }).catch(() => {})
+    },
+    showContextMenu (event) {
+      this.$store.commit('showContextMenu', {
+        handler: this.change,
+        options: this.options,
+        event: event
+      })
+    },
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    change ($event: { item: unknown; option: ContextMenuOption }) {
+      const toValue = $event.option.name as MentionSentimentEnum
       api.mentions.setMentionSentiment(this.mention.id, { mentionSentiment: toValue })
         .then(() => {
           this.mention.mentionSentiment = toValue

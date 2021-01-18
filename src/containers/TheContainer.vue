@@ -1,5 +1,11 @@
 <template>
   <div class="c-app">
+    <VueSimpleContextMenu
+      :options="$store.state.contextMenu.options"
+      ref="contextMenu"
+      elementId="contextMenu"
+      @option-clicked="$store.state.contextMenu.handler"
+    />
     <TheAlerts/>
     <CWrapper>
       <TheHeader/>
@@ -19,13 +25,15 @@
 import TheHeader from './TheHeader.vue'
 import TheFooter from './TheFooter.vue'
 import TheAlerts from './TheAlerts.vue'
+import VueSimpleContextMenu from 'vue-simple-context-menu'
 
 export default {
   name: 'TheContainer',
   components: {
     TheAlerts,
     TheHeader,
-    TheFooter
+    TheFooter,
+    VueSimpleContextMenu
   },
   data () {
     return {
@@ -56,6 +64,11 @@ export default {
   watch: {
     '$route.name' () {
       this.onRouteChange()
+    },
+    '$store.state.contextMenu' () {
+      if (this.$store.state.contextMenu.event) {
+        this.$refs.contextMenu.showMenu(this.$store.state.contextMenu.event)
+      }
     }
   }
 }
