@@ -17,7 +17,7 @@
         </CHeaderNavItem>
         <CHeaderNavItem class="px-3">
           <CHeaderNavLink
-            :to="$store.state.lastPlayerId ? `/players/${$store.state.lastPlayerId}` : '/players'"
+            :to="$store.state.playersView.player ? `/players/${$store.state.playersView.player.id}` : '/players'"
             :class="{'c-active': ['Players', 'Player'].includes($route.name)}"
           >
             {{ $t('Players') }}
@@ -29,7 +29,6 @@
 </template>
 
 <script lang="ts">
-import { List } from '@/model/list'
 
 export default {
   name: 'TheHeader',

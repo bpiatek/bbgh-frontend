@@ -1,74 +1,80 @@
 <template>
-  <VueSelect
-    v-if="options"
-    :filterable="false"
-    :options="options"
-    :value="selectedPlayer"
-    label="id"
-    @search="loadPlayers"
-    @input="onInput"
-    class="search-player"
-    :placeholder="$t('search player')"
-  >
-    <template slot="no-options">
-        <span>
-          {{$t('search player')}}
-        </span>
-    </template>
-    <template slot="option" slot-scope="option">
 
-      {{ option.firstName }} {{ option.lastName }}
-      <span v-if="option.currentTeam">
-          ({{ option.currentTeam }})
-        </span>
+  <Multiselect
+      v-if="options"
+      v-model="value"
+      :options="options"
+      :loading="loading"
+      :searchable="true"
+      :hide-selected="true"
+      @search-change="loadPlayers"
+      @input="onInput"
+      class="search-player"
+      label="id"
+      track-by="id"
+      selectLabel=""
+      :placeholder="$t('search player')"
+      open-direction="bottom"
+      :multiple="false"
+      :internal-search="false"
+      :clear-on-select="false"
+      :close-on-select="false"
+      :options-limit="300"
+      :limit="3"
+      :max-height="600"
+      :show-no-results="false"
+  >
+    <template slot="tag" slot-scope="{ option, remove }">
+      <span class="custom__tag"><span>{{ option.firstName }} {{ option.lastName }}</span>
+        <span class="custom__remove" @click="remove(option)">❌</span></span>
     </template>
-    <template slot="selected-option" slot-scope="option">
-      {{ option.firstName }} {{ option.lastName }}
+    <template slot="option" slot-scope="props">
+      {{ props.option.firstName }} {{ props.option.lastName }}
+      <span v-if="props.option.currentTeam">
+          ({{ props.option.currentTeam }})
+      </span>
     </template>
-  </VueSelect>
+  </Multiselect>
 </template>
 
 <script lang="ts">
-import VueSelect from 'vue-select'
+import Multiselect from 'vue-multiselect'
+
 import api from '@/api/api'
 import { Player } from '@/api/model/Player'
 
 export default {
   name: 'SearchPlayerInput',
-  components: { VueSelect },
-  props: {
-    selectedPlayer: {
-      type: Object as () => Player,
-      default: null
-    }
-  },
+  components: { Multiselect },
+  props: {},
   data () {
     return {
+      value: null,
       options: [],
-      searchTimeout: null
+      searchTimeout: null,
+      loading: false
     }
   },
   created () {
     this.options = this.$store.state.playersView.searchPlayerHistory
   },
   methods: {
-    loadPlayers (search, loading) {
+    loadPlayers (search) {
       if (search === '' || search === null) {
         this.options = this.$store.state.playersView.searchPlayerHistory
         return
       }
       search = search.replace(/\s\s+/g, ' ')
-
       if (this.searchTimeout) {
         clearTimeout(this.searchTimeout)
       }
       this.searchTimeout = setTimeout(() => {
-        loading(true)
+        this.loading = true
         api.players.search(search).then((r) => {
           this.options = r.data.content
-          loading(false)
+          this.loading = false
         })
-      }, 750)
+      }, 250)
     },
     onInput (player: Player) {
       this.$emit('input', player)

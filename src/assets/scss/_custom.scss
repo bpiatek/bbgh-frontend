@@ -252,17 +252,9 @@ $sentiment-NEGATIVE: #e65a5a;
     }
     color: $sentiment-POSITIVE;
   }
-  .search-player {
-    color: #3c4b64;
-    text-align: left;
-    -webkit-border-radius: 2rem;
-    -moz-border-radius: 4rem;
-    border-color: #7e90aa;
-    font-size: 20px;
-    min-width: 300px;
+}
 
-    .vs__dropdown-menu {
-      font-size: 16px;
-    }
-  }
+// fix height changing to 40 on focus
+.multiselect__tags {
+  height: 43px;
 }
