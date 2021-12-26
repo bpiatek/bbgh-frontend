@@ -6,6 +6,7 @@ import Article from '@/views/articles/Article.vue'
 import Player from '@/views/players/Player.vue'
 import Mentions from '@/views/mentions/Mentions.vue'
 import i18n from '../i18n'
+import Comments from '@/views/comments/Comments.vue'
 
 Vue.use(Router)
 
@@ -72,8 +73,15 @@ function configRoutes () {
           meta: {
             label: i18n.tc('Player')
           }
+        },
+        {
+          path: 'comments',
+          name: 'Comments',
+          component: Comments,
+          meta: {
+            label: i18n.tc('Comments')
+          }
         }
-
       ]
     },
     {

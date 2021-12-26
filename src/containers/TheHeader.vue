@@ -23,6 +23,11 @@
             {{ $t('Players') }}
           </CHeaderNavLink>
         </CHeaderNavItem>
+        <CHeaderNavItem class="px-3">
+          <CHeaderNavLink :to="{name: 'Comments'}" :class="{'c-active': $route.name === 'Comments'}">
+            {{ $t('Comments') }}
+          </CHeaderNavLink>
+        </CHeaderNavItem>
       </CHeaderNav>
     </CSubheader>
   </CHeader>

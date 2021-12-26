@@ -47,6 +47,15 @@
       "creationDate": "Data dodania"
     }
   },
+  "comments": {
+    "list": {
+      "id": "Id",
+      "content": "Treść",
+      "author": "Autor",
+      "article": "Artykuł",
+      "dateAdded": "Data dodania"
+    }
+  },
   "actions": {
     "go_back": "Cofnij"
   },

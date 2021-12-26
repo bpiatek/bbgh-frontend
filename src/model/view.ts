@@ -1,5 +1,5 @@
 import { Player, PlayerRatio } from '@/api/model/Player'
-import { ArticlesList, MentionsList } from '@/model/list'
+import { ArticlesList, CommentsList, MentionsList } from '@/model/list'
 
 export class View {
   constructor (options: unknown = {}) {
@@ -21,4 +21,8 @@ export class PlayersView extends View {
   mentionsList = new MentionsList({ size: 10 })
   articlesList = new ArticlesList({ size: 10 })
   searchPlayerHistory = []
+}
+
+export class CommentsView extends View {
+  commentsList = new CommentsList()
 }

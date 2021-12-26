@@ -27,16 +27,14 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 Runs `yarn serve` in container:
 ```
-# run in console
-docker-compose up --build
+# build
+docker-compose build
 
-# or run detached
-docker-compose up --build -d
-# and follow logs if needed
-docker-compose logs -f app
+# install dependencies 
+docker-compose run app yarn install
 
-# stop
-docker-compose stop
+# run
+docker-compose up
 ```
 
 ## deploy production

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { Alert } from '@/model/alert'
-import { ArticlesView, MentionsView, PlayersView } from '@/model/view'
+import { ArticlesView, CommentsView, MentionsView, PlayersView } from '@/model/view'
 import { ContextMenuSettings } from '@/model/contextMenu'
 
 Vue.use(Vuex)
@@ -20,6 +20,7 @@ const state = {
   mobile: true,
   mentionsView: new MentionsView(),
   articlesView: new ArticlesView(),
+  commentsView: new CommentsView(),
   playersView: new PlayersView(),
   contextMenu: {
     options: [],

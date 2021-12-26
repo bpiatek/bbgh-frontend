@@ -21,3 +21,6 @@ export class ArticlesList extends List<Article> {
 export class MentionsList extends List<Mention> {
     filterSentiment = [] as string[]
 }
+
+export class CommentsList extends List<Comment> {
+}

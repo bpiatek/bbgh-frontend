@@ -4,4 +4,5 @@ export interface Comment {
   author: string;
   dateAdded: string;
   content: string;
+  isHateSpeech: boolean;
 }
