@@ -53,7 +53,8 @@
       "content": "Treść",
       "author": "Autor",
       "article": "Artykuł",
-      "dateAdded": "Data dodania"
+      "dateAdded": "Data dodania",
+      "isHateSpeech": "Hejt"
     }
   },
   "actions": {
