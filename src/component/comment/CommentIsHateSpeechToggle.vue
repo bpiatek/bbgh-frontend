@@ -3,6 +3,7 @@
     color="danger"
     variant="3d"
     @update:checked="onCheck($event)"
+    :checked="comment.isHateSpeech"
   >
   </CSwitch>
 </template>
@@ -35,7 +36,7 @@ export default {
   },
   methods: {
     onCheck ($event: boolean) {
-      api.comments.setIsHateSpeech(this.comment.id, {hateSpeech: $event})
+      api.comments.setIsHateSpeech(this.comment.id, {isHateSpeech: $event})
         .then(() => {
           this.comment.isHateSpeech = $event
         })

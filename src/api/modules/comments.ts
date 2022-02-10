@@ -13,15 +13,15 @@ export class CommentsApi {
     return apiService.get('/comments', { params })
   }
 
-  setIsHateSpeech (id: number, { hateSpeech }: setIsMateSpeech): Promise<AxiosResponse<undefined>> {
+  setIsHateSpeech (id: number, { isHateSpeech }: setIsHateSpeech): Promise<AxiosResponse<undefined>> {
     return apiService.post(`/comments/${id}/isHateSpeech`, {
-      hateSpeech: hateSpeech
+      isHateSpeech: isHateSpeech
     })
   }
 }
 
 export default new CommentsApi()
 
-export type setIsMateSpeech = {
-  hateSpeech: boolean;
+export type setIsHateSpeech = {
+  isHateSpeech: boolean;
 }
