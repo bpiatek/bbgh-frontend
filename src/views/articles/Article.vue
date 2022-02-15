@@ -37,6 +37,9 @@
               {{ item.content }}
               <div class="text-right">
                 <i>{{item.author}}, {{ dayjs(item.dateAdded).format('DD MMM YYYY HH:mm')}}</i>
+                <CommentIsHateSpeechEditor
+                  :comment="item"
+                />
               </div>
             </td>
           </template>
@@ -51,10 +54,11 @@ import ApiDataTable from '@/component/ApiDataTable.vue'
 import { Pagination, Sort, SortDirection } from '@/api/model/common'
 import api from '@/api/api'
 import { Article } from '@/api/model/Article'
+import CommentIsHateSpeechEditor from '@/component/comment/CommentIsHateSpeechToggle.vue'
 
 export default {
   name: 'Article',
-  components: { ApiDataTable },
+  components: { ApiDataTable, CommentIsHateSpeechEditor },
   data () {
     return {
       articleId: null as null|number,
