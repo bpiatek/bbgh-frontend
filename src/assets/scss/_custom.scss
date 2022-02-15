@@ -20,7 +20,12 @@ $sentiment-NEGATIVE: #e65a5a;
   width: 100%;
 }
 
+.c-subheader {
+  overflow: scroll;
+}
+
 .c-header-nav-item {
+  white-space: nowrap;
   letter-spacing: 0.25px;
   font-weight: bold;
 }
@@ -267,3 +272,4 @@ $sentiment-NEGATIVE: #e65a5a;
 .multiselect__tags {
   height: 43px;
 }
+

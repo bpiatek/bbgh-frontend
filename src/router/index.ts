@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import TheContainer from '@/containers/TheContainer.vue'
 import Articles from '@/views/articles/Articles.vue'
 import Article from '@/views/articles/Article.vue'
+import ArticlesAboutLechPoznan from '@/views/articles/ArticlesAboutLechPoznan.vue'
 import Player from '@/views/players/Player.vue'
 import Mentions from '@/views/mentions/Mentions.vue'
 import i18n from '../i18n'
@@ -38,6 +39,14 @@ function configRoutes () {
               component: Articles,
               meta: {
                 label: i18n.tc('Articles')
+              }
+            },
+            {
+              path: 'aboutLechPoznan',
+              name: 'ArticlesAboutLechPoznan',
+              component: ArticlesAboutLechPoznan,
+              meta: {
+                label: i18n.tc('ArticlesAboutLechPoznan')
               }
             },
             {

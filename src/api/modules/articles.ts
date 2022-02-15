@@ -9,6 +9,10 @@ export class ArticlesApi {
     return apiService.get('/articles', { params })
   }
 
+  articlesAboutLechPoznan (pagination: Pagination, sorts: Sort[] = []): ListResponse<Article> {
+    return apiService.get('/articles/aboutLechPoznan', { })
+  }
+
   getById (id: number): ItemResponse<ArticleDetails> {
     return apiService.get(`/articles/${id}`)
   }
