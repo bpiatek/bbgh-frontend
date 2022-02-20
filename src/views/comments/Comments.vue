@@ -1,5 +1,10 @@
 <template>
   <CCard class="main-card">
+    <CCardHeader>
+      <h5 class="text-center">
+        Komentarze z negatywnymi wzmiankami
+      </h5>
+    </CCardHeader>
     <CCardBody class="pt-0">
       <ApiList
         :list="view.commentsList"
@@ -93,7 +98,7 @@ export default {
       list.loading = true
       const pagination = new Pagination(list.page - 1, list.size)
       const sorts = [new Sort('id', SortDirection.desc)]
-      api.comments.search(pagination, sorts).then((r) => {
+      api.comments.withNegativeMentionMarkedByHuman(pagination, sorts).then((r) => {
         list.items = r.data.content
         list.totalPages = r.data.totalPages
         list.totalElements = r.data.totalElements
