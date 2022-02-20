@@ -16,11 +16,6 @@
           </CHeaderNavLink>
         </CHeaderNavItem>
         <CHeaderNavItem class="px-3">
-          <CHeaderNavLink :to="{name: 'ArticlesAboutLechPoznan'}" :class="{'c-active': $route.name === 'ArticlesAboutLechPoznan'}">
-            {{ $t('ArticlesAboutLech') }}
-          </CHeaderNavLink>
-        </CHeaderNavItem>
-        <CHeaderNavItem class="px-3">
           <CHeaderNavLink
             :to="$store.state.playersView.player ? `/players/${$store.state.playersView.player.id}` : '/players'"
             :class="{'c-active': ['Players', 'Player'].includes($route.name)}"

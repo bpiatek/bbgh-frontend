@@ -20,7 +20,6 @@ const state = {
   mobile: true,
   mentionsView: new MentionsView(),
   articlesView: new ArticlesView(),
-  articlesAboutLechPoznanView: new ArticlesView(),
   commentsView: new CommentsView(),
   playersView: new PlayersView(),
   contextMenu: {
