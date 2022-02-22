@@ -25,7 +25,7 @@
               class="a-soft"
               :to="{name: 'Article', params: {id: item.articleId}}"
             >
-              {{  item.articleId  }}
+              link
             </router-link>
           </td>
         </template>
@@ -50,7 +50,7 @@
                 class="a-soft float-left"
                 :to="{name: 'Article', params: {id: item.articleId}}"
               >
-                {{  item.articleId  }}
+                link
               </router-link>
               <span>{{ item.author }}, </span>
               <i class="text-nowrap">{{  dayjs(item.dateAdded).format('DD MMM YYYY HH:mm')  }}</i>

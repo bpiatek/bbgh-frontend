@@ -79,6 +79,7 @@ $sentiment-NEGATIVE: #e65a5a;
   }
   .c-header-nav {
     min-height: 36px;
+    overflow: auto;
   }
   .c-main {
     padding: 0;
@@ -157,11 +158,18 @@ $sentiment-NEGATIVE: #e65a5a;
         text-align: center;
       }
     }
+
+    li[role="separator"] {
+      .page-link {
+        border-color: #d8dbe0;
+        font-weight: bolder;
+      }
+    }
   }
   .datatable-pagination-top {
-    transform: scale(0.75);
-    margin-bottom: 0.25rem;
-    margin-top: 0;
+    //transform: scale(0.75);
+    padding-bottom: 0.5rem;
+    padding-top: 0;
     > ul {
       margin-bottom: 0;
     }
